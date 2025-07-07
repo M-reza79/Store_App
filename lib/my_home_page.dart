@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:store_app/widgets/banner_slider.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -6,33 +8,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: PageView.builder(
-                controller: PageController(
-                  viewportFraction: 0.7,
-                ),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        EdgeInsetsGeometry.only(
-                          left: 12,
-                          right: 12,
-                        ),
-                    child: Container(
-                      color: Colors.red,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: SafeArea(child: BannerSlider()),
     );
   }
 }
