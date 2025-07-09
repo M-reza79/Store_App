@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:store_app/constants/colors.dart';
 
 class BannerSlider extends StatelessWidget {
   const BannerSlider({super.key});
@@ -26,7 +27,7 @@ class BannerSlider extends StatelessWidget {
                       right: 12,
                     ),
                 child: Container(
-                  color: Colors.red,
+                  color: Range.red,
                 ),
               );
             },
@@ -40,8 +41,8 @@ class BannerSlider extends StatelessWidget {
               expansionFactor: 4,
               dotHeight: 10,
               dotWidth: 10,
-              dotColor: Colors.grey,
-              activeDotColor: Colors.indigo,
+              dotColor: Range.grey,
+              activeDotColor: Range.indigo,
             ),
             controller: controller,
             count: 3,
