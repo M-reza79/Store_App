@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/pages/category_screen.dart';
+
+import 'package:store_app/pages/product_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CategoryScreen(),
+      home: ProductListScreen(),
     );
   }
 }
