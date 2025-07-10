@@ -6,8 +6,8 @@ import 'package:store_app/widgets/banner_slider.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/squircle.dart';
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
