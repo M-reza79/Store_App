@@ -83,8 +83,8 @@ class ProductListScreen
                 gridDelegate:
                     SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 25,
-                      mainAxisSpacing: 25,
+                      crossAxisSpacing: 30,
+                      mainAxisSpacing: 30,
                       childAspectRatio:
                           2 / 2.9,
                     ),
