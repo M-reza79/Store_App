@@ -28,148 +28,148 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: ProductDetailScreen(),
-        bottomNavigationBar: ClipRRect(
-          borderRadius:
-              BorderRadiusGeometry.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(
-                  15,
-                ),
-              ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 50,
-              sigmaY: 50,
-            ),
-            child: BottomNavigationBar(
-              onTap: (int index) {
-                setState(() {
-                  selectedBottomNavigationIndex =
-                      index;
-                });
-              },
-              type: BottomNavigationBarType
-                  .fixed,
-              backgroundColor:
-                  Colors.transparent,
-              elevation: 0,
-              // این انجام بده فکر کنم خودش سایه بده
-              //  showSelectedLabels: ,
-              selectedLabelStyle: TextStyle(
-                fontFamily: 'SB',
-                fontSize: 10,
-                color: Range.blue,
-              ),
+        // bottomNavigationBar: ClipRRect(
+        //   borderRadius:
+        //       BorderRadiusGeometry.only(
+        //         topLeft: Radius.circular(15),
+        //         topRight: Radius.circular(
+        //           15,
+        //         ),
+        //       ),
+        //   child: BackdropFilter(
+        //     filter: ImageFilter.blur(
+        //       sigmaX: 50,
+        //       sigmaY: 50,
+        //     ),
+        //     child: BottomNavigationBar(
+        //       onTap: (int index) {
+        //         setState(() {
+        //           selectedBottomNavigationIndex =
+        //               index;
+        //         });
+        //       },
+        //       type: BottomNavigationBarType
+        //           .fixed,
+        //       backgroundColor:
+        //           Colors.transparent,
+        //       elevation: 0,
+        //       // این انجام بده فکر کنم خودش سایه بده
+        //       //  showSelectedLabels: ,
+        //       selectedLabelStyle: TextStyle(
+        //         fontFamily: 'SB',
+        //         fontSize: 10,
+        //         color: Range.blue,
+        //       ),
 
-              showUnselectedLabels: false,
+        //       showUnselectedLabels: false,
 
-              currentIndex:
-                  selectedBottomNavigationIndex,
-              items: [
-                BottomNavigationBarItem(
-                  label: 'حساب کاربری',
-                  icon: Image.asset(
-                    'assets/images/icon_profile.png',
-                  ),
-                  activeIcon: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Range
-                              .blueIndicator,
-                          blurRadius: 20,
-                          spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Image.asset(
-                      'assets/images/icon_profile_active.png',
-                    ),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: 'سبد خرید ',
-                  icon: Image.asset(
-                    'assets/images/icon_basket.png',
-                  ),
-                  activeIcon: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Range
-                              .blueIndicator,
-                          blurRadius: 20,
-                          spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Image.asset(
-                      'assets/images/icon_basket_active.png',
-                    ),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: 'دسته بندی',
-                  icon: Image.asset(
-                    'assets/images/icon_category.png',
-                  ),
-                  activeIcon: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Range
-                              .blueIndicator,
-                          blurRadius: 20,
-                          spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Image.asset(
-                      'assets/images/icon_category_active.png',
-                    ),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: 'خانه',
-                  icon: Image.asset(
-                    'assets/images/icon_home.png',
-                  ),
-                  activeIcon: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Range
-                              .blueIndicator,
-                          blurRadius: 20,
-                          spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Image.asset(
-                      'assets/images/icon_home_active.png',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        //       currentIndex:
+        //           selectedBottomNavigationIndex,
+        //       items: [
+        //         BottomNavigationBarItem(
+        //           label: 'حساب کاربری',
+        //           icon: Image.asset(
+        //             'assets/images/icon_profile.png',
+        //           ),
+        //           activeIcon: Container(
+        //             decoration: BoxDecoration(
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: Range
+        //                       .blueIndicator,
+        //                   blurRadius: 20,
+        //                   spreadRadius: -7,
+        //                   offset: Offset(
+        //                     0,
+        //                     13,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //             child: Image.asset(
+        //               'assets/images/icon_profile_active.png',
+        //             ),
+        //           ),
+        //         ),
+        //         BottomNavigationBarItem(
+        //           label: 'سبد خرید ',
+        //           icon: Image.asset(
+        //             'assets/images/icon_basket.png',
+        //           ),
+        //           activeIcon: Container(
+        //             decoration: BoxDecoration(
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: Range
+        //                       .blueIndicator,
+        //                   blurRadius: 20,
+        //                   spreadRadius: -7,
+        //                   offset: Offset(
+        //                     0,
+        //                     13,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //             child: Image.asset(
+        //               'assets/images/icon_basket_active.png',
+        //             ),
+        //           ),
+        //         ),
+        //         BottomNavigationBarItem(
+        //           label: 'دسته بندی',
+        //           icon: Image.asset(
+        //             'assets/images/icon_category.png',
+        //           ),
+        //           activeIcon: Container(
+        //             decoration: BoxDecoration(
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: Range
+        //                       .blueIndicator,
+        //                   blurRadius: 20,
+        //                   spreadRadius: -7,
+        //                   offset: Offset(
+        //                     0,
+        //                     13,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //             child: Image.asset(
+        //               'assets/images/icon_category_active.png',
+        //             ),
+        //           ),
+        //         ),
+        //         BottomNavigationBarItem(
+        //           label: 'خانه',
+        //           icon: Image.asset(
+        //             'assets/images/icon_home.png',
+        //           ),
+        //           activeIcon: Container(
+        //             decoration: BoxDecoration(
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: Range
+        //                       .blueIndicator,
+        //                   blurRadius: 20,
+        //                   spreadRadius: -7,
+        //                   offset: Offset(
+        //                     0,
+        //                     13,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //             child: Image.asset(
+        //               'assets/images/icon_home_active.png',
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

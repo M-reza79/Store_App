@@ -17,4 +17,6 @@ class Range {
   static const Color grey = Color(
     0xff858585,
   );
+  static const Color blueporange =
+      Color.fromRGBO(5, 41, 103, 1);
 }
