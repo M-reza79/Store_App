@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/widgets/darsad_off.dart';
 
 class ProductDetailScreen
     extends StatelessWidget {
@@ -875,35 +876,7 @@ class AddToBasketButton1
                         ],
                       ),
                       Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Range.red,
-                          borderRadius:
-                              BorderRadius.all(
-                                Radius.circular(
-                                  15,
-                                ),
-                              ),
-                        ),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.symmetric(
-                                horizontal:
-                                    4,
-                                vertical: 2,
-                              ),
-                          child: Text(
-                            '%25',
-                            style: TextStyle(
-                              color: Colors
-                                  .white,
-                              fontFamily:
-                                  'SB',
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                      ),
+                      DarsadOff(),
                     ],
                   ),
                 ),
