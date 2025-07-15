@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
-import 'package:store_app/pages/card_screen.dart';
+import 'package:store_app/pages/card_screens.dart';
+
 import 'package:store_app/pages/category_screen.dart';
 import 'package:store_app/pages/home_screen.dart';
 import 'package:store_app/pages/product_detail_screen.dart';
-import 'package:store_app/pages/product_list_screen.dart';
-import 'dart:ui';
 
-import 'package:store_app/pages/profile_screen.dart';
+import 'dart:ui';
 
 void main() {
   runApp(const MyApp());
@@ -182,7 +181,7 @@ class _MyAppState extends State<MyApp> {
   List<Widget> getScreens() {
     return <Widget>[
       ProductDetailScreen(),
-      CardScreen(),
+      CardScreens(),
       CategoryScreen(),
       HomeScreen(),
     ];
