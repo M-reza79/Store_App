@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/di/di.dart';
 import 'package:store_app/pages/card_screens.dart';
 
 import 'package:store_app/pages/category_screen.dart';
+
 import 'package:store_app/pages/home_screen.dart';
 import 'package:store_app/pages/product_detail_screen.dart';
 
 import 'dart:ui';
 
-void main() {
+import 'package:store_app/pages/login_screen.dart';
+import 'package:store_app/pages/sign_in.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await getItInit();
   runApp(const MyApp());
 }
 
@@ -180,10 +187,23 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> getScreens() {
     return <Widget>[
-      ProductDetailScreen(),
+      HomeScreen(),
       CardScreens(),
       CategoryScreen(),
-      HomeScreen(),
+      LoginScreen(),
     ];
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// flutter.ndkVersion

@@ -19,4 +19,7 @@ class Range {
   );
   static const Color blueporange =
       Color.fromRGBO(5, 41, 103, 1);
+  static const Color wihtporange = Color(
+    0xFFE0E5EC,
+  );
 }
