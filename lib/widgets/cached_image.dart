@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
 
 class CachedkImage extends StatelessWidget {
-  final String? imageUrl;
+  final String imageUrl;
   const CachedkImage({
     super.key,
     required this.imageUrl,
@@ -13,7 +13,7 @@ class CachedkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       child: CachedNetworkImage(
-        imageUrl: imageUrl ?? 'خطا ',
+        imageUrl: imageUrl,
         fit: BoxFit.cover,
         errorWidget: (context, url, error) {
           return Container(
