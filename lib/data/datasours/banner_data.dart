@@ -1,27 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:store_app/di/di.dart';
-import 'package:store_app/model/category/categorys.dart';
+import 'package:store_app/model/banner/banners.dart';
 import 'package:store_app/util/api_exception.dart';
 
-abstract class ICategoryData {
-  Future<List<Categorys>> getGatgories();
+abstract class IBannerData {
+  Future<List<Banners>> getBannersD();
 }
 
-class CategoryRemotData
-    extends ICategoryData {
+class BannerRemotData extends IBannerData {
   final Dio _dio = locator.get();
-  @override
-  Future<List<Categorys>>
-  getGatgories() async {
-    try {
-      var responseCategory = await _dio.get(
-        'collections/category/records',
-      );
 
-      return responseCategory.data['items']
-          .map<Categorys>(
+  @override
+  Future<List<Banners>> getBannersD() async {
+    try {
+      var responseBanner = await _dio.get(
+        'collections/banner/records',
+      );
+      return responseBanner.data['items']
+          .map<Banners>(
             (jsonObject) =>
-                Categorys.fromMapJson(
+                Banners.fromMapJson(
                   jsonObject,
                 ),
           )

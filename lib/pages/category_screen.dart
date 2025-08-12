@@ -5,7 +5,7 @@ import 'package:store_app/bloc/Category/category_event.dart';
 import 'package:store_app/bloc/Category/category_state.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/repository/category_repository.dart';
-import 'package:store_app/model/category/category.dart';
+import 'package:store_app/model/category/categorys.dart';
 import 'package:store_app/widgets/cached_image.dart';
 
 class CategoryScreen extends StatefulWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/data/repository/banner_repository.dart';
 import 'package:store_app/widgets/serche.dart';
 
 import 'package:store_app/widgets/banner_slider.dart';
@@ -27,6 +28,28 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
+        SliverToBoxAdapter(
+          child: ElevatedButton(
+            onPressed: () async {
+              var response =
+                  await BannerRepository()
+                      .getBannersR();
+              response.fold(
+                (l) {
+                  return print(l);
+                },
+                (r) {
+                  return r.forEach((
+                    element,
+                  ) {
+                    print(element.id);
+                  });
+                },
+              );
+            },
+            child: Text('data'),
+          ),
+        ),
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsetsGeometry.only(
