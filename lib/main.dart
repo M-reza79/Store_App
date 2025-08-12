@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/Category/category_bloc.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/di/di.dart';
 import 'package:store_app/pages/card_screens.dart';
@@ -189,7 +191,10 @@ class _MyAppState extends State<MyApp> {
     return <Widget>[
       HomeScreen(),
       CardScreens(),
-      CategoryScreen(),
+      BlocProvider(
+        create: (context) => CategoryBloc(),
+        child: CategoryScreen(),
+      ),
       LoginScreen(),
     ];
   }

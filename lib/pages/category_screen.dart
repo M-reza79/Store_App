@@ -19,71 +19,108 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState
     extends State<CategoryScreen> {
   @override
+  void initState() {
+    //بلاک پراویدر که اینوت بفرسته گذاشتیم  توی اینیت که  با ساخته شدن اینم بفرسته
+    BlocProvider.of<CategoryBloc>(
+      context,
+    ).add(CategoryRequestEvent());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
           Range.backgroundScreenColor,
       body: SafeArea(
-        child: BlocProvider(
-          create: (context) => CategoryBloc()
-            ..add(CategoryRequestEvent()),
-
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(
-                        top: 5,
-                        right: 30,
-                        left: 30,
-                        bottom: 30,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(
+                      top: 5,
+                      right: 30,
+                      left: 30,
+                      bottom: 30,
+                    ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.all(
+                          Radius.circular(
+                            15,
+                          ),
+                        ),
+                  ),
+                  height: 46,
+                  child: Row(
+                    crossAxisAlignment:
+                        CrossAxisAlignment
+                            .center,
+                    children: [
+                      SizedBox(width: 16),
+                      Image.asset(
+                        'assets/images/icon_apple_blue.png',
                       ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.all(
-                            Radius.circular(
-                              15,
-                            ),
-                          ),
-                    ),
-                    height: 46,
-                    child: Row(
-                      crossAxisAlignment:
-                          CrossAxisAlignment
-                              .center,
-                      children: [
-                        SizedBox(width: 16),
-                        Image.asset(
-                          'assets/images/icon_apple_blue.png',
-                        ),
 
-                        Expanded(
-                          child: Text(
-                            'دسته بندی',
-                            textAlign:
-                                TextAlign
-                                    .center,
-                            style: TextStyle(
-                              fontFamily:
-                                  'SB',
-                              fontSize: 16,
-                              color: Range
-                                  .blueIndicator,
-                            ),
+                      Expanded(
+                        child: Text(
+                          'دسته بندی',
+                          textAlign:
+                              TextAlign
+                                  .center,
+                          style: TextStyle(
+                            fontFamily: 'SB',
+                            fontSize: 16,
+                            color: Range
+                                .blueIndicator,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-
-              _ListCategory(),
-            ],
-          ),
+            ),
+            BlocBuilder<
+              CategoryBloc,
+              CategoryState
+            >(
+              builder: (context, state) {
+                if (state
+                    is CategoryLodingState) {
+                  return SliverToBoxAdapter(
+                    child:
+                        CircularProgressIndicator(),
+                  );
+                }
+                if (state
+                    is CategoryResponseState) {
+                  return state
+                      .responseCategory
+                      .fold(
+                        (l) {
+                          return SliverToBoxAdapter(
+                            child: Center(
+                              child: Text(l),
+                            ),
+                          );
+                        },
+                        (r) {
+                          return _ListCategory(
+                            list: r,
+                          );
+                        },
+                      );
+                }
+                return SliverToBoxAdapter(
+                  child: Text('erorr'),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -91,7 +128,11 @@ class _CategoryScreenState
 }
 
 class _ListCategory extends StatelessWidget {
-  const _ListCategory({super.key});
+  final List<Categorys> list;
+  const _ListCategory({
+    super.key,
+    required this.list,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -102,35 +143,15 @@ class _ListCategory extends StatelessWidget {
         left: 30,
       ),
       sliver: SliverGrid(
-        delegate: SliverChildBuilderDelegate((
-          context,
-          index,
-        ) {
-          return BlocBuilder<
-            CategoryBloc,
-            CategoryState
-          >(
-            builder: (context, state) {
-              if (state
-                  is CategoryResponseState) {
-                return CachedkImage(
-                  imageUrl: state
-                      .responseCategory
-                      .fold(
-                        (l) {
-                          return 'خطا در بارگذاری تصویر';
-                        },
-                        (r) {
-                          return r[index]
-                              .thumbnail;
-                        },
-                      ),
-                );
-              }
-              return const Text('');
-            },
-          );
-        }, childCount: 8),
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return CachedkImage(
+              imageUrl:
+                  list[index].thumbnail,
+            );
+          },
+          childCount: list.length,
+        ),
         gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

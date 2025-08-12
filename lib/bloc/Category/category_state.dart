@@ -6,6 +6,9 @@ abstract class CategoryState {}
 class InitCategoryState
     extends CategoryState {}
 
+class CategoryLodingState
+    extends CategoryState {}
+
 class CategoryResponseState
     extends CategoryState {
   Either<String, List<Categorys>>

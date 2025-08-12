@@ -16,6 +16,7 @@ class CategoryBloc
       event,
       emit,
     ) async {
+      emit(CategoryLodingState());
       final responseCategory =
           await _repository.getCategories();
       emit(
