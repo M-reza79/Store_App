@@ -96,6 +96,7 @@ class _CategoryScreenState
                         CircularProgressIndicator(),
                   );
                 }
+                //
                 if (state
                     is CategoryResponseState) {
                   return state

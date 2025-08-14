@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-
-import 'package:store_app/widgets/category_icon_item_chip.dart';
+import 'package:store_app/constants/colors.dart';
+import 'package:store_app/model/category/categorys.dart';
+import 'package:store_app/widgets/cached_image.dart';
 
 class Squircle extends StatelessWidget {
-  const Squircle({super.key});
+  final List<Categorys> list;
+  const Squircle({
+    super.key,
+    required this.list,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +18,66 @@ class Squircle extends StatelessWidget {
       ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: list.length,
         itemBuilder: (context, index) {
-          return const CategoryIconItemChip();
+          return Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+            ),
+            child: Column(
+              children: [
+                Stack(
+                  alignment:
+                      AlignmentDirectional
+                          .center,
+                  children: [
+                    Container(
+                      decoration: ShapeDecoration(
+                        shape: ContinuousRectangleBorder(
+                          borderRadius:
+                              BorderRadiusGeometry.circular(
+                                40,
+                              ),
+                        ),
+                        color: Range.red,
+                        shadows: [
+                          BoxShadow(
+                            color: Range.red,
+                            blurRadius: 25,
+                            spreadRadius:
+                                -13,
+                            offset: Offset(
+                              0.0,
+                              15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      height: 56,
+                      width: 56,
+                    ),
+
+                    SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CachedkImage(
+                        imageUrl:
+                            list[index].icon,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text(
+                  list[index].title,
+                  style: TextStyle(
+                    fontFamily: 'SB',
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/homescreen/home_bloc.dart';
+import 'package:store_app/bloc/homescreen/home_event.dart';
+import 'package:store_app/bloc/homescreen/home_state.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/repository/banner_repository.dart';
 import 'package:store_app/widgets/serche.dart';
@@ -7,8 +11,26 @@ import 'package:store_app/widgets/banner_slider.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/squircle.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() =>
+      _HomeScreenState();
+}
+
+class _HomeScreenState
+    extends State<HomeScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<HomeBloc>(
+      context,
+    ).add(HomeRequestBannerEvent());
+    BlocProvider.of<HomeBloc>(
+      context,
+    ).add(HomeRequestCategoryEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,92 +38,124 @@ class HomeScreen extends StatelessWidget {
       backgroundColor:
           Range.backgroundScreenColor,
 
-      body: SafeArea(child: HomePage()),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    EdgeInsetsGeometry.only(
+                      top: 20,
+                      right: 44,
+                      left: 44,
+                      bottom: 32,
+                    ),
+                child: Serche(),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state
+                      is HomeLodingState) {
+                    return CircularProgressIndicator();
+                  }
+                  //
+                  if (state
+                      is HomeBannerResponseState) {
+                    return state
+                        .responseHomeBanner
+                        .fold(
+                          (l) {
+                            return Text(l);
+                          },
+                          (r) {
+                            return BannerSlider(
+                              list: r,
+                            );
+                          },
+                        );
+                  }
+                  return Text('erorr');
+                },
+              ),
+            ),
+
+            SliverToBoxAdapter(
+              child: TextCategory(),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 100,
+                child: BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    if (state
+                        is HomeLodingState) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state
+                        is HomeCategoryResponseState) {
+                      return state
+                          .responseHomeCategory
+                          .fold(
+                            (l) {
+                              return Center(
+                                child: Text(
+                                  l,
+                                ),
+                              );
+                            },
+                            (r) {
+                              return Squircle(
+                                list: r,
+                              );
+                            },
+                          );
+                    }
+                    return Text('erorr');
+                  },
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: TextPorFroshtarin(),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(
+                      right: 30,
+                    ),
+                child: SizedBox(
+                  height: 200,
+                  child: ProductItem(),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: TextPorBazdid(),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(
+                      right: 30,
+                    ),
+                child: SizedBox(
+                  height: 200,
+                  child: ProductItem(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: ElevatedButton(
-            onPressed: () async {
-              var response =
-                  await BannerRepository()
-                      .getBannersR();
-              response.fold(
-                (l) {
-                  return print(l);
-                },
-                (r) {
-                  return r.forEach((
-                    element,
-                  ) {
-                    print(element.id);
-                  });
-                },
-              );
-            },
-            child: Text('data'),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsetsGeometry.only(
-              top: 20,
-              right: 44,
-              left: 44,
-              bottom: 32,
-            ),
-            child: Serche(),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: BannerSlider(),
-        ),
-        SliverToBoxAdapter(child: Sater0()),
-        SliverToBoxAdapter(
-          child: SizedBox(
-            height: 100,
-            child: Squircle(),
-          ),
-        ),
-        SliverToBoxAdapter(child: Sater1()),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 30,
-            ),
-            child: SizedBox(
-              height: 200,
-              child: ProductItem(),
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(child: Sater2()),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 30,
-            ),
-            child: SizedBox(
-              height: 200,
-              child: ProductItem(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class Sater0 extends StatelessWidget {
-  const Sater0({super.key});
+class TextCategory extends StatelessWidget {
+  const TextCategory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +184,9 @@ class Sater0 extends StatelessWidget {
   }
 }
 
-class Sater1 extends StatelessWidget {
-  const Sater1({super.key});
+class TextPorFroshtarin
+    extends StatelessWidget {
+  const TextPorFroshtarin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -170,8 +225,8 @@ class Sater1 extends StatelessWidget {
   }
 }
 
-class Sater2 extends StatelessWidget {
-  const Sater2({super.key});
+class TextPorBazdid extends StatelessWidget {
+  const TextPorBazdid({super.key});
 
   @override
   Widget build(BuildContext context) {
