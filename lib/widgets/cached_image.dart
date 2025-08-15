@@ -4,14 +4,19 @@ import 'package:store_app/constants/colors.dart';
 
 class CachedkImage extends StatelessWidget {
   final String imageUrl;
+  final double radius;
   const CachedkImage({
     super.key,
     required this.imageUrl,
+    this.radius = 0,
   });
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
+      borderRadius: BorderRadius.all(
+        Radius.circular(radius),
+      ),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         fit: BoxFit.cover,

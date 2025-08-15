@@ -14,7 +14,7 @@ class HomeBloc
   _categoryRepository = locator.get();
 
   HomeBloc() : super(IHomeState()) {
-    on<HomeRequestBannerEvent>((
+    on<HomeRequestGetInitilzeDataEvent>((
       event,
       emit,
     ) async {
@@ -22,27 +22,31 @@ class HomeBloc
       final responseBannerHome =
           await _bannerRepository
               .getBannersR();
-
-      emit(
-        HomeBannerResponseState(
-          responseBannerHome,
-        ),
-      );
-    });
-
-    on<HomeRequestCategoryEvent>((
-      event,
-      emit,
-    ) async {
-      emit(HomeLodingState());
       final responseCategoryHome =
           await _categoryRepository
               .getCategories();
+
       emit(
-        HomeCategoryResponseState(
+        HomeResponseState(
+          responseBannerHome,
           responseCategoryHome,
         ),
       );
     });
+
+    // on<HomeRequestCategoryEvent>((
+    //   event,
+    //   emit,
+    // ) async {
+    //   emit(HomeLodingState());
+    //   final responseCategoryHome =
+    //       await _categoryRepository
+    //           .getCategories();
+    //   emit(
+    //     HomeCategoryResponseState(
+    //       responseCategoryHome,
+    //     ),
+    //   );
+    // });
   }
 }

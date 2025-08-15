@@ -8,20 +8,13 @@ class IHomeState extends HomeState {}
 
 class HomeLodingState extends HomeState {}
 
-class HomeBannerResponseState
-    extends HomeState {
+class HomeResponseState extends HomeState {
   Either<String, List<Banners>>
-  responseHomeBanner;
-  HomeBannerResponseState(
-    this.responseHomeBanner,
-  );
-}
-
-class HomeCategoryResponseState
-    extends HomeState {
+  responseHomebaanner;
   Either<String, List<Categorys>>
   responseHomeCategory;
-  HomeCategoryResponseState(
+  HomeResponseState(
+    this.responseHomebaanner,
     this.responseHomeCategory,
   );
 }

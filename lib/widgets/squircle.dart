@@ -9,7 +9,6 @@ class Squircle extends StatelessWidget {
     super.key,
     required this.list,
   });
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,6 +19,16 @@ class Squircle extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: list.length,
         itemBuilder: (context, index) {
+          int coloreCatgory = int.parse(
+            '0xff${list[index].color}',
+          );
+          // String stringcoloreCatgory =
+          //     'xff${list[index].color}';
+          // int coloreCatgory = int.parse(
+          //   stringcoloreCatgory,
+          //   radix: 16,
+          // );
+
           return Padding(
             padding: const EdgeInsets.only(
               left: 10,
@@ -39,10 +48,14 @@ class Squircle extends StatelessWidget {
                                 40,
                               ),
                         ),
-                        color: Range.red,
+                        color: Color(
+                          coloreCatgory,
+                        ),
                         shadows: [
                           BoxShadow(
-                            color: Range.red,
+                            color: Color(
+                              coloreCatgory,
+                            ),
                             blurRadius: 25,
                             spreadRadius:
                                 -13,

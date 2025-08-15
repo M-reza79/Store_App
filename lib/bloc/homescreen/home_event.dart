@@ -2,13 +2,16 @@ abstract class HomeEvent {
   
 }
 
-class HomeRequestBannerEvent extends HomeEvent{
+class HomeRequestGetInitilzeDataEvent extends HomeEvent{
   
 }
-
-
-
- class HomeRequestCategoryEvent extends HomeEvent{
+// class HomeRequestBannerEvent extends HomeEvent{
   
-}
+// }
+
+
+
+//  class HomeRequestCategoryEvent extends HomeEvent{
+  
+// }
 
