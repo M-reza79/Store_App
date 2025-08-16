@@ -190,9 +190,12 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> getScreens() {
     return <Widget>[
-      BlocProvider(
-        create: (context) => HomeBloc(),
-        child: HomeScreen(),
+      Directionality(
+        textDirection: TextDirection.rtl,
+        child: BlocProvider(
+          create: (context) => HomeBloc(),
+          child: HomeScreen(),
+        ),
       ),
       CardScreens(),
       BlocProvider(

@@ -49,8 +49,14 @@ class _HomeScreenState
                 if (state
                     is HomeLodingState) ...{
                   SliverToBoxAdapter(
-                    child:
-                        CircularProgressIndicator(),
+                    child: Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child:
+                            CircularProgressIndicator(),
+                      ),
+                    ),
                   ),
                 },
 
@@ -169,24 +175,12 @@ class _GetMostViewedTitle
       child: Padding(
         padding: const EdgeInsets.only(
           top: 30,
-          left: 44,
+          left: 30,
           right: 44,
           bottom: 15,
         ),
         child: Row(
           children: [
-            Image.asset(
-              'assets/images/icon_left_categroy.png',
-            ),
-            SizedBox(width: 10),
-            Text(
-              ' مشاهده همه ',
-              style: TextStyle(
-                fontFamily: 'SB',
-                color: Range.blue,
-              ),
-            ),
-            Spacer(),
             Text(
               'پر بازدید ترین ها',
               style: TextStyle(
@@ -194,6 +188,19 @@ class _GetMostViewedTitle
                 fontSize: 12,
                 color: Range.grey,
               ),
+            ),
+
+            Spacer(),
+            Text(
+              ' مشاهده همه ',
+              style: TextStyle(
+                fontFamily: 'SB',
+                color: Range.blue,
+              ),
+            ),
+            SizedBox(width: 5),
+            Image.asset(
+              'assets/images/icon_left_categroy.png',
             ),
           ],
         ),
@@ -231,25 +238,13 @@ class _GetBestsellerTitle
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(
-          left: 44,
+          left: 30,
           right: 44,
           bottom: 15,
           top: 10,
         ),
         child: Row(
           children: [
-            Image.asset(
-              'assets/images/icon_left_categroy.png',
-            ),
-            SizedBox(width: 10),
-            Text(
-              ' مشاهده همه ',
-              style: TextStyle(
-                fontFamily: 'SB',
-                color: Range.blue,
-              ),
-            ),
-            Spacer(),
             Text(
               'پر فروش ترین ها',
               style: TextStyle(
@@ -257,6 +252,20 @@ class _GetBestsellerTitle
                 fontSize: 12,
                 color: Range.grey,
               ),
+            ),
+
+            Spacer(),
+
+            Text(
+              ' مشاهده همه ',
+              style: TextStyle(
+                fontFamily: 'SB',
+                color: Range.blue,
+              ),
+            ),
+            SizedBox(width: 5),
+            Image.asset(
+              'assets/images/icon_left_categroy.png',
             ),
           ],
         ),
@@ -281,7 +290,7 @@ class _GetcategoryListTitle
         ),
         child: Row(
           mainAxisAlignment:
-              MainAxisAlignment.end,
+              MainAxisAlignment.start,
           children: [
             Text(
               'دسته بندی ها',

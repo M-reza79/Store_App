@@ -28,20 +28,20 @@ class Serche extends StatelessWidget {
             fontSize: 16,
           ),
           prefixIcon: Padding(
+            padding: EdgeInsets.only(
+              right: 5,
+            ),
+            child: Icon(Icons.search),
+          ),
+          suffixIconColor:
+              Range.blueIndicator,
+          suffixIcon: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 5,
             ),
             child: Image.asset(
               'assets/images/icon_apple_blue.png',
             ),
-          ),
-          prefixIconColor:
-              Range.blueIndicator,
-          suffixIcon: Padding(
-            padding: EdgeInsets.only(
-              right: 5,
-            ),
-            child: Icon(Icons.search),
           ),
         ),
       ),
