@@ -1,40 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/model/product/products.dart';
+import 'package:store_app/widgets/cached_image.dart';
 
 class BoxMahsol extends StatelessWidget {
-  const BoxMahsol({super.key});
+  final Products product;
+  const BoxMahsol({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 160,
-      height: 216,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        
+      },
+      child: Container(
+        width: 160,
+        height: 216,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(15),
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          SizedBox(height: 10),
-          BakshePainii(),
-          Spacer(),
-          BakcshBalaii(),
-        ],
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            BakshePainii(product: product),
+            Spacer(),
+            BakcshBalaii(product: product),
+          ],
+        ),
       ),
     );
   }
 }
 
 class BakcshBalaii extends StatelessWidget {
-  const BakcshBalaii({super.key});
+  final Products product;
+
+  const BakcshBalaii({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment:
-          CrossAxisAlignment.end,
+          CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(
@@ -42,7 +58,10 @@ class BakcshBalaii extends StatelessWidget {
             right: 10,
           ),
           child: Text(
-            'آیفون 11 پرومکس',
+            product.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.start,
             style: TextStyle(
               fontFamily: 'sm',
               fontSize: 14,
@@ -99,7 +118,8 @@ class BakcshBalaii extends StatelessWidget {
                           .center,
                   children: [
                     Text(
-                      '20000000',
+                      product.price
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'sm',
@@ -107,12 +127,19 @@ class BakcshBalaii extends StatelessWidget {
                         decoration:
                             TextDecoration
                                 .lineThrough,
+
+                        //کلفتی خط
+                        decorationThickness:
+                            2.5,
+
                         decorationColor:
                             Colors.white,
                       ),
                     ),
                     Text(
-                      '12000000',
+                      // ' ${product.price - product.discount_price}',
+                      product.realPrice
+                          .toString(),
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'sm',
@@ -138,7 +165,12 @@ class BakcshBalaii extends StatelessWidget {
 }
 
 class BakshePainii extends StatelessWidget {
-  const BakshePainii({super.key});
+  final Products product;
+
+  const BakshePainii({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -148,10 +180,10 @@ class BakshePainii extends StatelessWidget {
         SizedBox(width: double.infinity),
         // Expanded(child: Container()),
         SizedBox(
-          height: 90,
-          width: 90,
-          child: Image.asset(
-            'assets/images/iphone.png',
+          height: 100,
+          width: 100,
+          child: CachedkImage(
+            imageUrl: product.thumbnail,
           ),
         ),
         Positioned(
@@ -182,7 +214,7 @@ class BakshePainii extends StatelessWidget {
                     vertical: 2,
                   ),
               child: Text(
-                '%25',
+                '%${product.persent!.round()}',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'SB',

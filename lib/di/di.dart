@@ -4,9 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_app/data/datasours/authentication_datascource.dart';
 import 'package:store_app/data/datasours/banner_data.dart';
 import 'package:store_app/data/datasours/category_data.dart';
+import 'package:store_app/data/datasours/products_data.dart';
 import 'package:store_app/data/repository/authentication_repository.dart';
 import 'package:store_app/data/repository/banner_repository.dart';
 import 'package:store_app/data/repository/category_repository.dart';
+import 'package:store_app/data/repository/products_repository.dart';
 
 var locator = GetIt.instance;
 Future<void> getItInit() async {
@@ -39,13 +41,17 @@ Future<void> getItInit() async {
     () => BannerRemotData(),
   );
 
+  //
+  locator.registerFactory<IProductsData>(
+    () => ProductsRemotData(),
+  );
+
   //repositories
   locator.registerFactory<IAuthRepository>(
     () => AuthenticationRepository(),
   );
 
   //
-
   locator
       .registerFactory<ICategoryRepository>(
         () => CategoryRepository(),
@@ -57,4 +63,8 @@ Future<void> getItInit() async {
   );
 
   //
+  locator
+      .registerFactory<IProductsRepository>(
+        () => ProductsRepository(),
+      );
 }

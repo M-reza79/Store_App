@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:store_app/model/banner/banners.dart';
 import 'package:store_app/model/category/categorys.dart';
+import 'package:store_app/model/product/products.dart';
 
 abstract class HomeState {}
 
@@ -13,8 +14,17 @@ class HomeResponseState extends HomeState {
   responseHomebaanner;
   Either<String, List<Categorys>>
   responseHomeCategory;
+  Either<String, List<Products>>
+  responseHomeProducts;
+  Either<String, List<Products>>
+  responseHomeHotestProducts;
+  Either<String, List<Products>>
+  responseHomeBestSellerProducts;
   HomeResponseState(
     this.responseHomebaanner,
     this.responseHomeCategory,
+    this.responseHomeProducts,
+    this.responseHomeHotestProducts,
+    this.responseHomeBestSellerProducts,
   );
 }

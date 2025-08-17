@@ -3,6 +3,7 @@ import 'package:store_app/bloc/homescreen/home_event.dart';
 import 'package:store_app/bloc/homescreen/home_state.dart';
 import 'package:store_app/data/repository/banner_repository.dart';
 import 'package:store_app/data/repository/category_repository.dart';
+import 'package:store_app/data/repository/products_repository.dart';
 import 'package:store_app/di/di.dart';
 
 //میتونستم یه ایونت بدم  با دوتا استیت
@@ -12,6 +13,8 @@ class HomeBloc
       locator.get();
   final ICategoryRepository
   _categoryRepository = locator.get();
+  final IProductsRepository
+  _productsRepository = locator.get();
 
   HomeBloc() : super(IHomeState()) {
     on<HomeRequestGetInitilzeDataEvent>((
@@ -22,14 +25,30 @@ class HomeBloc
       final responseBannerHome =
           await _bannerRepository
               .getBannersR();
+
       final responseCategoryHome =
           await _categoryRepository
               .getCategories();
+
+      final responseProductsHome =
+          await _productsRepository
+              .getProductsR();
+
+      final responsehotestProductsListHome =
+          await _productsRepository
+              .getHotestProductsR();
+
+      final responsebestSellerProductsListHome =
+          await _productsRepository
+              .getBestSellerProductsR();
 
       emit(
         HomeResponseState(
           responseBannerHome,
           responseCategoryHome,
+          responseProductsHome,
+          responsehotestProductsListHome,
+          responsebestSellerProductsListHome,
         ),
       );
     });

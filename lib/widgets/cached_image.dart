@@ -19,7 +19,7 @@ class CachedkImage extends StatelessWidget {
       ),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         errorWidget: (context, url, error) {
           return Container(
             color: Range.red,

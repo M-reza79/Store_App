@@ -10,6 +10,8 @@ class Products {
   int price;
   int quantity;
   String thumbnail;
+  int? realPrice;
+  num? persent;
   Products(
     this.category,
     this.collectionId,
@@ -22,7 +24,13 @@ class Products {
     this.price,
     this.quantity,
     this.thumbnail,
-  );
+  ) {
+    //مبلغ که تخفیف ازش کم شده و پرداختی
+    realPrice = price - discount_price;
+    //درصد تخفیف
+    persent =
+        ((price - realPrice!) / price) * 100;
+  }
 
   factory Products.fromMapJson(
     Map<String, dynamic> jsonObject,

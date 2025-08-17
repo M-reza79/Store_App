@@ -74,12 +74,13 @@ class ProductListScreen
               ),
               sliver: SliverGrid(
                 delegate:
-                    SliverChildBuilderDelegate(
-                      (context, index) {
-                        return BoxMahsol();
-                      },
-                      childCount: 10,
-                    ),
+                    SliverChildBuilderDelegate((
+                      context,
+                      index,
+                    ) {
+                      // return BoxMahsol();
+                      return Text('123456');
+                    }, childCount: 10),
                 gridDelegate:
                     SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
