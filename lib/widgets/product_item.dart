@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/model/product/products.dart';
+import 'package:store_app/data/model/product/products.dart';
+ 
 
 import 'package:store_app/widgets/box_mahsol.dart';
 

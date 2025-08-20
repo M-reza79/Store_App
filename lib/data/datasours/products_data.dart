@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:store_app/data/model/product/products.dart';
 import 'package:store_app/di/di.dart';
-import 'package:store_app/model/product/products.dart';
+ 
 import 'package:store_app/util/api_exception.dart';
 
 abstract class IProductsData {

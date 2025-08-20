@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/product/product_bloc.dart';
 import 'package:store_app/constants/colors.dart';
-import 'package:store_app/model/product/products.dart';
+import 'package:store_app/data/model/product/products.dart';
+
+import 'package:store_app/pages/product_detail_screen.dart';
 import 'package:store_app/widgets/cached_image.dart';
+import 'package:store_app/widgets/nviagt.dart';
 
 class BoxMahsol extends StatelessWidget {
   final Products product;
@@ -13,9 +18,14 @@ class BoxMahsol extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        
-      },
+      onTap: () => nviagt(
+        context,
+        BlocProvider(
+          create: (context) =>
+              ProductDetailBloc(),
+          child: ProductDetailScreen(),
+        ),
+      ),
       child: Container(
         width: 160,
         height: 216,

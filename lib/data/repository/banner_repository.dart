@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:store_app/data/datasours/banner_data.dart';
 import 'package:store_app/di/di.dart';
-import 'package:store_app/model/banner/banners.dart';
+import 'package:store_app/data/model/banner/banners.dart';
 import 'package:store_app/util/api_exception.dart';
 
 abstract class IBannerRepository {

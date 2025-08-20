@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
-import 'package:store_app/model/category/categorys.dart';
+import 'package:store_app/data/model/category/categorys.dart';
+ 
 import 'package:store_app/widgets/cached_image.dart';
 
 class Squircle extends StatelessWidget {
@@ -73,9 +74,11 @@ class Squircle extends StatelessWidget {
                     SizedBox(
                       width: 30,
                       height: 30,
-                      child: CachedkImage(
-                        imageUrl:
-                            list[index].icon,
+                      child: Center(
+                        child: CachedkImage(
+                          imageUrl:
+                              list[index].icon,
+                        ),
                       ),
                     ),
                   ],

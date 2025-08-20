@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:store_app/model/category/categorys.dart';
+import 'package:store_app/data/model/category/categorys.dart';
+ 
 
 abstract class CategoryState {}
 

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:store_app/model/banner/banners.dart';
-import 'package:store_app/model/category/categorys.dart';
-import 'package:store_app/model/product/products.dart';
+import 'package:store_app/data/model/banner/banners.dart';
+import 'package:store_app/data/model/category/categorys.dart';
+import 'package:store_app/data/model/product/products.dart';
 
 abstract class HomeState {}
 

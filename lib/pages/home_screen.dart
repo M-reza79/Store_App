@@ -5,9 +5,9 @@ import 'package:store_app/bloc/homescreen/home_event.dart';
 import 'package:store_app/bloc/homescreen/home_state.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/repository/banner_repository.dart';
-import 'package:store_app/model/banner/banners.dart';
-import 'package:store_app/model/category/categorys.dart';
-import 'package:store_app/model/product/products.dart';
+import 'package:store_app/data/model/banner/banners.dart';
+import 'package:store_app/data/model/category/categorys.dart';
+import 'package:store_app/data/model/product/products.dart';
 import 'package:store_app/widgets/serche.dart';
 
 import 'package:store_app/widgets/banner_slider.dart';

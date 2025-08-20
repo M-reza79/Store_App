@@ -18,6 +18,7 @@ import 'package:store_app/pages/sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await getItInit();
   runApp(const MyApp());
 }
@@ -205,13 +206,7 @@ class _MyAppState extends State<MyApp> {
       LoginScreen(),
     ];
   }
-}
-
-
-
-
-
-
+} 
 
 
 
