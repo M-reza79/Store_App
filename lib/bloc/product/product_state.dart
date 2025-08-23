@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:store_app/data/model/category/categorys.dart';
 import 'package:store_app/data/model/gallery/product_image.dart';
 import 'package:store_app/data/model/product_variant/product_variant.dart';
 import 'package:store_app/data/model/variants_type/variants_types.dart';
@@ -17,9 +18,11 @@ class ProductDetailResponseState
   responseProductImage;
   Either<String, List<ProductVariant>>
   responseProductVariant;
+  Either<String, Categorys> responsecategorysId;
 
   ProductDetailResponseState(
     this.responseProductImage,
     this.responseProductVariant,
+    this.responsecategorysId,
   );
 }

@@ -6,19 +6,23 @@ import 'package:store_app/bloc/product/product_bloc.dart';
 import 'package:store_app/bloc/product/product_event.dart';
 import 'package:store_app/bloc/product/product_state.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/data/model/category/categorys.dart';
 import 'package:store_app/data/model/gallery/product_image.dart';
-import 'package:store_app/data/model/product_variant/product_variant.dart';
-import 'package:store_app/data/model/variants/variants.dart';
-import 'package:store_app/data/model/variants_type/variants_types.dart';
-import 'package:store_app/widgets/cached_image.dart';
-import 'package:store_app/widgets/color_varintLists.dart';
-import 'package:store_app/widgets/darsad_off.dart';
-import 'package:store_app/widgets/nviagt.dart';
-import 'package:store_app/widgets/sotrage_variant_list_state.dart';
+import 'package:store_app/data/model/product/products.dart';
 
-class ProductDetailScreen
-    extends StatefulWidget {
-  const ProductDetailScreen({super.key});
+import 'package:store_app/widgets/cached_image.dart';
+
+import 'package:store_app/widgets/darsad_off.dart';
+
+import 'package:store_app/widgets/variant_container.dart';
+
+class ProductDetailScreen extends StatefulWidget {
+  final Products products;
+
+  const ProductDetailScreen(
+    this.products, {
+    super.key,
+  });
 
   @override
   State<ProductDetailScreen> createState() =>
@@ -32,7 +36,12 @@ class _ProductDetailScreenState
     //بلاک پراویدر که اینوت بفرسته گذاشتیم  توی اینیت که  با ساخته شدن اینم بفرسته
     BlocProvider.of<ProductDetailBloc>(
       context,
-    ).add(ProductDetailInitializeEvent());
+    ).add(
+      ProductDetailInitializeEvent(
+        widget.products.id.toString(),
+        widget.products.categoryId.toString(),
+      ),
+    );
     super.initState();
   }
 
@@ -66,66 +75,74 @@ class _ProductDetailScreenState
                     ),
                   ),
                 ] else ...[
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(
-                            top: 5,
-                            right: 30,
-                            left: 30,
-                            bottom: 10,
+                  if (state
+                      is ProductDetailResponseState) ...[
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(
+                              top: 5,
+                              right: 30,
+                              left: 30,
+                              bottom: 10,
+                            ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(
+                                  Radius.circular(
+                                    15,
+                                  ),
+                                ),
                           ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color:
-                              Colors.white,
-                          borderRadius:
-                              BorderRadius.all(
-                                Radius.circular(
-                                  15,
-                                ),
+                          height: 46,
+                          child: Row(
+                            crossAxisAlignment:
+                                CrossAxisAlignment
+                                    .center,
+                            children: [
+                              SizedBox(width: 16),
+                              Image.asset(
+                                'assets/images/icon_apple_blue.png',
                               ),
-                        ),
-                        height: 46,
-                        child: Row(
-                          crossAxisAlignment:
-                              CrossAxisAlignment
-                                  .center,
-                          children: [
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Image.asset(
-                              'assets/images/icon_apple_blue.png',
-                            ),
 
-                            Expanded(
-                              child: Text(
-                                'آیفون',
-                                textAlign:
-                                    TextAlign
-                                        .center,
-                                style: TextStyle(
-                                  fontFamily:
-                                      'SB',
-                                  fontSize:
-                                      16,
-                                  color: Range
-                                      .blueIndicator,
+                              Expanded(
+                                child: Text(
+                                  state.responsecategorysId.fold(
+                                    (l) {
+                                      return 'اطلاعات محصول';
+                                    },
+                                    (
+                                      categorystitle,
+                                    ) {
+                                      return categorystitle
+                                          .title;
+                                    },
+                                  ),
+                                  textAlign:
+                                      TextAlign
+                                          .center,
+                                  style: TextStyle(
+                                    fontFamily:
+                                        'SB',
+                                    fontSize: 16,
+                                    color: Range
+                                        .blueIndicator,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Image.asset(
-                              'assets/images/icon_back.png',
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                          ],
+                              Image.asset(
+                                'assets/images/icon_back.png',
+                              ),
+                              SizedBox(width: 16),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
+
                   SliverToBoxAdapter(
                     child: Padding(
                       padding:
@@ -139,8 +156,7 @@ class _ProductDetailScreenState
                         style: TextStyle(
                           fontFamily: 'SB',
                           fontSize: 16,
-                          color:
-                              Colors.black,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -157,6 +173,9 @@ class _ProductDetailScreenState
                       },
                       (productImage) {
                         return _GallerWidget(
+                          widget
+                              .products
+                              .thumbnail,
                           productImageList:
                               productImage,
                         );
@@ -180,23 +199,22 @@ class _ProductDetailScreenState
                     ),
                   ],
 
-                  if (state
-                      is ProductDetailResponseState) ...[
-                    state.responseProductVariant.fold(
-                      (l) {
-                        return SliverToBoxAdapter(
-                          child: Text(l),
-                        );
-                      },
-                      (productVariantList) {
-                        return GetHafeze(
-                          productVariantList:
-                              productVariantList,
-                        );
-                      },
-                    ),
-                  ],
-
+                  // if (state
+                  //     is ProductDetailResponseState) ...[
+                  //   state.responseProductVariant.fold(
+                  //     (l) {
+                  //       return SliverToBoxAdapter(
+                  //         child: Text(l),
+                  //       );
+                  //     },
+                  //     (productVariantList) {
+                  //       return GetHafeze(
+                  //         productVariantList:
+                  //             productVariantList,
+                  //       );
+                  //     },
+                  //   ),
+                  // ],
                   SliverToBoxAdapter(
                     child: Container(
                       margin:
@@ -214,9 +232,7 @@ class _ProductDetailScreenState
                         ),
                         borderRadius:
                             BorderRadius.all(
-                              Radius.circular(
-                                15,
-                              ),
+                              Radius.circular(15),
                             ),
                       ),
                       child: Row(
@@ -229,8 +245,8 @@ class _ProductDetailScreenState
                           ),
                           Image.asset(
                             'assets/images/icon_left_categroy.png',
-                            color: Range
-                                .blueporange,
+                            color:
+                                Range.blueporange,
                           ),
                           const SizedBox(
                             width: 10,
@@ -238,8 +254,7 @@ class _ProductDetailScreenState
                           const Text(
                             'مشاهده',
                             style: TextStyle(
-                              fontFamily:
-                                  'SB',
+                              fontFamily: 'SB',
                               fontSize: 12,
                               color: Range
                                   .blueIndicator,
@@ -249,11 +264,9 @@ class _ProductDetailScreenState
                           const Text(
                             ':مشخصات فنی',
                             style: TextStyle(
-                              fontFamily:
-                                  'sm',
+                              fontFamily: 'sm',
                               fontSize: 16,
-                              color: Colors
-                                  .black,
+                              color: Colors.black,
                             ),
                           ),
                           const SizedBox(
@@ -280,9 +293,7 @@ class _ProductDetailScreenState
                         ),
                         borderRadius:
                             BorderRadius.all(
-                              Radius.circular(
-                                15,
-                              ),
+                              Radius.circular(15),
                             ),
                       ),
                       child: Row(
@@ -295,8 +306,8 @@ class _ProductDetailScreenState
                           ),
                           Image.asset(
                             'assets/images/icon_left_categroy.png',
-                            color: Range
-                                .blueporange,
+                            color:
+                                Range.blueporange,
                           ),
                           const SizedBox(
                             width: 10,
@@ -304,8 +315,7 @@ class _ProductDetailScreenState
                           const Text(
                             'مشاهده',
                             style: TextStyle(
-                              fontFamily:
-                                  'SB',
+                              fontFamily: 'SB',
                               fontSize: 12,
                               color: Range
                                   .blueIndicator,
@@ -315,11 +325,9 @@ class _ProductDetailScreenState
                           const Text(
                             ':توضیحات محصول',
                             style: TextStyle(
-                              fontFamily:
-                                  'sm',
+                              fontFamily: 'sm',
                               fontSize: 16,
-                              color: Colors
-                                  .black,
+                              color: Colors.black,
                             ),
                           ),
                           const SizedBox(
@@ -346,9 +354,7 @@ class _ProductDetailScreenState
                         ),
                         borderRadius:
                             BorderRadius.all(
-                              Radius.circular(
-                                15,
-                              ),
+                              Radius.circular(15),
                             ),
                       ),
                       child: Row(
@@ -361,8 +367,8 @@ class _ProductDetailScreenState
                           ),
                           Image.asset(
                             'assets/images/icon_left_categroy.png',
-                            color: Range
-                                .blueporange,
+                            color:
+                                Range.blueporange,
                           ),
                           const SizedBox(
                             width: 10,
@@ -370,8 +376,7 @@ class _ProductDetailScreenState
                           const Text(
                             'مشاهده',
                             style: TextStyle(
-                              fontFamily:
-                                  'SB',
+                              fontFamily: 'SB',
                               fontSize: 12,
                               color: Range
                                   .blueIndicator,
@@ -387,12 +392,11 @@ class _ProductDetailScreenState
                                 width: 26,
                                 margin:
                                     EdgeInsets.only(
-                                      left:
-                                          10,
+                                      left: 10,
                                     ),
                                 decoration: BoxDecoration(
-                                  color: Range
-                                      .red,
+                                  color:
+                                      Range.red,
                                   borderRadius:
                                       BorderRadius.all(
                                         Radius.circular(
@@ -408,8 +412,7 @@ class _ProductDetailScreenState
                                   width: 26,
                                   margin:
                                       EdgeInsets.only(
-                                        left:
-                                            10,
+                                        left: 10,
                                       ),
                                   decoration: BoxDecoration(
                                     color: Range
@@ -430,8 +433,7 @@ class _ProductDetailScreenState
                                   width: 26,
                                   margin:
                                       EdgeInsets.only(
-                                        left:
-                                            10,
+                                        left: 10,
                                       ),
                                   decoration: BoxDecoration(
                                     color: Colors
@@ -452,8 +454,7 @@ class _ProductDetailScreenState
                                   width: 26,
                                   margin:
                                       EdgeInsets.only(
-                                        left:
-                                            10,
+                                        left: 10,
                                       ),
                                   decoration: BoxDecoration(
                                     color: Colors
@@ -474,8 +475,7 @@ class _ProductDetailScreenState
                                   width: 26,
                                   margin:
                                       EdgeInsets.only(
-                                        left:
-                                            10,
+                                        left: 10,
                                       ),
                                   decoration: BoxDecoration(
                                     color: Range
@@ -496,8 +496,8 @@ class _ProductDetailScreenState
                                             'sb',
                                         fontSize:
                                             12,
-                                        color:
-                                            Colors.white,
+                                        color: Colors
+                                            .white,
                                       ),
                                     ),
                                   ),
@@ -509,11 +509,9 @@ class _ProductDetailScreenState
                           const Text(
                             ':نظرات کاربران ',
                             style: TextStyle(
-                              fontFamily:
-                                  'sm',
+                              fontFamily: 'sm',
                               fontSize: 16,
-                              color: Colors
-                                  .black,
+                              color: Colors.black,
                             ),
                           ),
                           const SizedBox(
@@ -552,220 +550,222 @@ class _ProductDetailScreenState
   }
 }
 
-class GetHafeze extends StatelessWidget {
-  final List<ProductVariant>
-  productVariantList;
-  const GetHafeze({
-    super.key,
-    required this.productVariantList,
-  });
+// class GetHafeze extends StatelessWidget {
+//   final List<ProductVariant>
+//   productVariantList;
+//   const GetHafeze({
+//     super.key,
+//     required this.productVariantList,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 5,
-          left: 30,
-          right: 30,
-        ),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.end,
-          children: [
-            SizedBox(height: 10),
-            Text(
-              productVariantList[1]
-                  .variantsType
-                  .title,
-              style: TextStyle(
-                fontFamily: 'sm',
-                fontSize: 12,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.end,
-              children: [
-                SotrageVariantListState(
-                  sotrageVariantList:
-                      productVariantList[1]
-                          .variantList,
-                ),
-                // Container(
-                //   height: 28,
+//   @override
+//   Widget build(BuildContext context) {
+//     return SliverToBoxAdapter(
+//       child: Padding(
+//         padding: const EdgeInsets.only(
+//           top: 5,
+//           left: 30,
+//           right: 30,
+//         ),
+//         child: Column(
+//           crossAxisAlignment:
+//               CrossAxisAlignment.end,
+//           children: [
+//             SizedBox(height: 10),
+//             Text(
+//               productVariantList[1]
+//                   .variantsType
+//                   .title,
+//               style: TextStyle(
+//                 fontFamily: 'sm',
+//                 fontSize: 12,
+//                 color: Colors.black,
+//               ),
+//             ),
+//             SizedBox(height: 10),
+//             Row(
+//               mainAxisAlignment:
+//                   MainAxisAlignment.end,
+//               children: [
+//                 SotrageVariantListState(
+//                   sotrageVariantList:
+//                       productVariantList[1]
+//                           .variantList,
+//                 ),
+//                 // Container(
+//                 //   height: 28,
 
-                //   margin:
-                //       const EdgeInsets.only(
-                //         left: 10,
-                //       ),
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(
-                //       width: 1,
-                //       color: Range.grey,
-                //     ),
-                //     borderRadius:
-                //         const BorderRadius.all(
-                //           Radius.circular(
-                //             10,
-                //           ),
-                //         ),
-                //   ),
-                //   child: Padding(
-                //     padding:
-                //         const EdgeInsets.symmetric(
-                //           horizontal: 20,
-                //         ),
-                //     child: Center(
-                //       child: Text(
-                //         '128',
-                //         style: TextStyle(
-                //           fontFamily: 'SB',
-                //           fontSize: 12,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // Container(
-                //   height: 28,
+//                 //   margin:
+//                 //       const EdgeInsets.only(
+//                 //         left: 10,
+//                 //       ),
+//                 //   decoration: BoxDecoration(
+//                 //     color: Colors.white,
+//                 //     border: Border.all(
+//                 //       width: 1,
+//                 //       color: Range.grey,
+//                 //     ),
+//                 //     borderRadius:
+//                 //         const BorderRadius.all(
+//                 //           Radius.circular(
+//                 //             10,
+//                 //           ),
+//                 //         ),
+//                 //   ),
+//                 //   child: Padding(
+//                 //     padding:
+//                 //         const EdgeInsets.symmetric(
+//                 //           horizontal: 20,
+//                 //         ),
+//                 //     child: Center(
+//                 //       child: Text(
+//                 //         '128',
+//                 //         style: TextStyle(
+//                 //           fontFamily: 'SB',
+//                 //           fontSize: 12,
+//                 //         ),
+//                 //       ),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // Container(
+//                 //   height: 28,
 
-                //   margin:
-                //       const EdgeInsets.only(
-                //         left: 10,
-                //       ),
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(
-                //       width: 1,
-                //       color: Range.grey,
-                //     ),
-                //     borderRadius:
-                //         const BorderRadius.all(
-                //           Radius.circular(
-                //             10,
-                //           ),
-                //         ),
-                //   ),
-                //   child: Padding(
-                //     padding:
-                //         const EdgeInsets.symmetric(
-                //           horizontal: 20,
-                //         ),
-                //     child: Center(
-                //       child: Text(
-                //         '128',
-                //         style: TextStyle(
-                //           fontFamily: 'SB',
-                //           fontSize: 12,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // Container(
-                //   height: 28,
+//                 //   margin:
+//                 //       const EdgeInsets.only(
+//                 //         left: 10,
+//                 //       ),
+//                 //   decoration: BoxDecoration(
+//                 //     color: Colors.white,
+//                 //     border: Border.all(
+//                 //       width: 1,
+//                 //       color: Range.grey,
+//                 //     ),
+//                 //     borderRadius:
+//                 //         const BorderRadius.all(
+//                 //           Radius.circular(
+//                 //             10,
+//                 //           ),
+//                 //         ),
+//                 //   ),
+//                 //   child: Padding(
+//                 //     padding:
+//                 //         const EdgeInsets.symmetric(
+//                 //           horizontal: 20,
+//                 //         ),
+//                 //     child: Center(
+//                 //       child: Text(
+//                 //         '128',
+//                 //         style: TextStyle(
+//                 //           fontFamily: 'SB',
+//                 //           fontSize: 12,
+//                 //         ),
+//                 //       ),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // Container(
+//                 //   height: 28,
 
-                //   margin:
-                //       const EdgeInsets.only(
-                //         left: 10,
-                //       ),
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(
-                //       width: 1,
-                //       color: Range.grey,
-                //     ),
-                //     borderRadius:
-                //         const BorderRadius.all(
-                //           Radius.circular(
-                //             10,
-                //           ),
-                //         ),
-                //   ),
-                //   child: Padding(
-                //     padding:
-                //         const EdgeInsets.symmetric(
-                //           horizontal: 20,
-                //         ),
-                //     child: Center(
-                //       child: Text(
-                //         '128',
-                //         style: TextStyle(
-                //           fontFamily: 'SB',
-                //           fontSize: 12,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//                 //   margin:
+//                 //       const EdgeInsets.only(
+//                 //         left: 10,
+//                 //       ),
+//                 //   decoration: BoxDecoration(
+//                 //     color: Colors.white,
+//                 //     border: Border.all(
+//                 //       width: 1,
+//                 //       color: Range.grey,
+//                 //     ),
+//                 //     borderRadius:
+//                 //         const BorderRadius.all(
+//                 //           Radius.circular(
+//                 //             10,
+//                 //           ),
+//                 //         ),
+//                 //   ),
+//                 //   child: Padding(
+//                 //     padding:
+//                 //         const EdgeInsets.symmetric(
+//                 //           horizontal: 20,
+//                 //         ),
+//                 //     child: Center(
+//                 //       child: Text(
+//                 //         '128',
+//                 //         style: TextStyle(
+//                 //           fontFamily: 'SB',
+//                 //           fontSize: 12,
+//                 //         ),
+//                 //       ),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-class VariantContainer
-    extends StatelessWidget {
-  final List<ProductVariant>
-  productVariantList;
+// class VariantRangContainer
+//     extends StatelessWidget {
+//   final List<ProductVariant>
+//   productVariantList;
 
-  const VariantContainer({
-    super.key,
-    required this.productVariantList,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 30,
-          right: 30,
-        ),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.end,
-          children: [
-            SizedBox(height: 10),
-            Text(
-              productVariantList[0]
-                  .variantsType
-                  .title,
-              style: TextStyle(
-                fontFamily: 'sm',
-                fontSize: 12,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.end,
-              children: [
-                ColorVariantLists(
-                  variantList:
-                      productVariantList[0]
-                          .variantList,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   const VariantRangContainer({
+//     super.key,
+//     required this.productVariantList,
+//   });
+//   @override
+//   Widget build(BuildContext context) {
+//     return SliverToBoxAdapter(
+//       child: Padding(
+//         padding: const EdgeInsets.only(
+//           left: 30,
+//           right: 30,
+//         ),
+//         child: Column(
+//           crossAxisAlignment:
+//               CrossAxisAlignment.end,
+//           children: [
+//             SizedBox(height: 10),
+//             Text(
+//               productVariantList[0]
+//                   .variantsType
+//                   .title,
+//               style: TextStyle(
+//                 fontFamily: 'sm',
+//                 fontSize: 12,
+//                 color: Colors.black,
+//               ),
+//             ),
+//             SizedBox(height: 10),
+//             Row(
+//               mainAxisAlignment:
+//                   MainAxisAlignment.end,
+//               children: [
+//                 ColorVariantLists(
+//                   variantList:
+//                       productVariantList[0]
+//                           .variantList,
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _GallerWidget extends StatefulWidget {
   final List<ProductImage> productImageList;
+  final String defaultProductThumbnail;
   final int selectedItem = 0;
-  const _GallerWidget({
+  const _GallerWidget(
+    this.defaultProductThumbnail, {
     super.key,
     required this.productImageList,
   });
@@ -789,10 +789,9 @@ class _GallerWidgetState
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding:
-            EdgeInsetsGeometry.symmetric(
-              horizontal: 30,
-            ),
+        padding: EdgeInsetsGeometry.symmetric(
+          horizontal: 30,
+        ),
         child: Container(
           height: 284,
 
@@ -806,16 +805,14 @@ class _GallerWidgetState
             children: [
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(
-                        right: 15,
-                        left: 15,
-                        top: 15,
-                      ),
+                  padding: const EdgeInsets.only(
+                    right: 15,
+                    left: 15,
+                    top: 15,
+                  ),
                   child: Row(
                     crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
+                        CrossAxisAlignment.start,
                     children: [
                       Row(
                         crossAxisAlignment:
@@ -832,8 +829,7 @@ class _GallerWidgetState
                           Text(
                             '4.6',
                             style: TextStyle(
-                              fontFamily:
-                                  'sm',
+                              fontFamily: 'sm',
                               fontSize: 12,
                             ),
                           ),
@@ -841,12 +837,19 @@ class _GallerWidgetState
                       ),
                       Spacer(),
                       SizedBox(
-                        height:
-                            double.infinity,
+                        height: 200,
+                        width: 200,
                         child: CachedkImage(
-                          imageUrl: widget
-                              .productImageList[selectedItem]
-                              .image,
+                          imageUrl:
+                              (widget
+                                  .productImageList
+                                  .isEmpty)
+                              ? widget
+                                    .defaultProductThumbnail
+                              : widget
+                                    .productImageList[widget
+                                        .selectedItem]
+                                    .image,
                         ),
                       ),
                       Spacer(),
@@ -859,68 +862,70 @@ class _GallerWidgetState
                 ),
               ),
               SizedBox(height: 10),
-              SizedBox(
-                height: 70,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(
-                        horizontal: 30,
-                      ),
-                  child: ListView.builder(
-                    scrollDirection:
-                        Axis.horizontal,
-                    itemCount: widget
-                        .productImageList
-                        .length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            //توی اینیت استیت تعریف کردم و مقدار دادم واسه استیت فولت
-                            selectedItem =
-                                index;
-                          });
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 70,
-                          margin:
-                              EdgeInsets.only(
-                                left: 20,
+              if (widget
+                  .productImageList
+                  .isNotEmpty) ...[
+                SizedBox(
+                  height: 70,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(
+                          horizontal: 30,
+                        ),
+                    child: ListView.builder(
+                      scrollDirection:
+                          Axis.horizontal,
+                      itemCount: widget
+                          .productImageList
+                          .length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              //توی اینیت استیت تعریف کردم و مقدار دادم واسه استیت فولت
+                              selectedItem =
+                                  index;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            margin:
+                                EdgeInsets.only(
+                                  left: 20,
+                                ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Range.grey,
+                                width: 1,
                               ),
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(
-                                  color: Range
-                                      .grey,
-                                  width: 1,
-                                ),
-                            borderRadius:
-                                BorderRadius.all(
-                                  Radius.circular(
-                                    10,
+                              borderRadius:
+                                  BorderRadius.all(
+                                    Radius.circular(
+                                      10,
+                                    ),
                                   ),
-                                ),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.all(
-                                  4,
-                                ),
-                            child: CachedkImage(
-                              imageUrl: widget
-                                  .productImageList[index]
-                                  .image,
-                              radius: 10,
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(
+                                    4,
+                                  ),
+                              child: CachedkImage(
+                                imageUrl: widget
+                                    .productImageList[index]
+                                    .image,
+                                radius: 10,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
+                SizedBox(height: 20),
+              ],
             ],
           ),
         ),
@@ -929,8 +934,7 @@ class _GallerWidgetState
   }
 }
 
-class AddToBasketButton1
-    extends StatelessWidget {
+class AddToBasketButton1 extends StatelessWidget {
   const AddToBasketButton1({super.key});
 
   @override
@@ -984,16 +988,14 @@ class AddToBasketButton1
                       ),
                   child: Row(
                     crossAxisAlignment:
-                        CrossAxisAlignment
-                            .center,
+                        CrossAxisAlignment.center,
                     children: [
                       Text(
                         'تومان',
                         style: TextStyle(
                           fontFamily: 'SB',
                           fontSize: 12,
-                          color:
-                              Colors.white,
+                          color: Colors.white,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -1008,21 +1010,17 @@ class AddToBasketButton1
                           Text(
                             '17,800,00',
                             style: TextStyle(
-                              fontFamily:
-                                  'SB',
+                              fontFamily: 'SB',
                               fontSize: 10,
-                              color: Colors
-                                  .white,
+                              color: Colors.white,
                             ),
                           ),
                           Text(
                             '16,489,000',
                             style: TextStyle(
-                              fontFamily:
-                                  'SB',
+                              fontFamily: 'SB',
                               fontSize: 12,
-                              color: Colors
-                                  .white,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -1041,8 +1039,7 @@ class AddToBasketButton1
   }
 }
 
-class PriceTagButton
-    extends StatelessWidget {
+class PriceTagButton extends StatelessWidget {
   const PriceTagButton({super.key});
 
   @override
@@ -1083,17 +1080,13 @@ class PriceTagButton
                         color: Range.blue,
                         blurRadius: 100,
                         spreadRadius: -15,
-                        offset: Offset(
-                          0,
-                          10,
-                        ),
+                        offset: Offset(0, 10),
                       ),
                     ],
                     border: Border.all(
                       color: Colors.white,
                     ),
-                    color:
-                        Colors.transparent,
+                    color: Colors.transparent,
                   ),
                   child: Padding(
                     padding:
@@ -1102,12 +1095,11 @@ class PriceTagButton
                         ),
                     child: Center(
                       child: Text(
-                        'افزودن به سبد خرید',
+                        'افزودن به گک//پگک// خرید',
                         style: TextStyle(
                           fontFamily: 'SB',
                           fontSize: 14,
-                          color:
-                              Colors.white,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -1121,18 +1113,6 @@ class PriceTagButton
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

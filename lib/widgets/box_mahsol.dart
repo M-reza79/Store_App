@@ -23,7 +23,7 @@ class BoxMahsol extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               ProductDetailBloc(),
-          child: ProductDetailScreen(),
+          child: ProductDetailScreen(product),
         ),
       ),
       child: Container(

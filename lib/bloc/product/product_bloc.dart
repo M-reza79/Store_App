@@ -11,8 +11,8 @@ class ProductDetailBloc
           ProductDetailEvent,
           ProductDetailState
         > {
-  final IProductDetailRepository
-  _repository = locator.get();
+  final IProductDetailRepository _repository =
+      locator.get();
 
   ProductDetailBloc()
     : super(ProductDetailInitstate()) {
@@ -21,15 +21,20 @@ class ProductDetailBloc
       emit,
     ) async {
       emit(ProductDetailLodingState());
-      final responseProduct =
-          await _repository.getGallerysR();
+      final responseProduct = await _repository
+          .getGallerysR(event.productId);
       final responseProductVariant =
-          await _repository
-              .getProductVariantR();
+          await _repository.getProductVariantR();
+
+      final responsecategorysId =
+          await _repository.getProductCategoryR(
+            event.categorysId,
+          );
       emit(
         ProductDetailResponseState(
           responseProduct,
           responseProductVariant,
+          responsecategorysId,
         ),
       );
     });

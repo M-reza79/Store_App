@@ -12,56 +12,13 @@ class SotrageVariantListState
   });
 
   @override
-  State<SotrageVariantListState>
-  createState() =>
+  State<SotrageVariantListState> createState() =>
       _SotrageVariantListStateState();
 }
 
 class _SotrageVariantListStateState
     extends State<SotrageVariantListState> {
-  List<Widget> sotrageWidget = [];
-  @override
-  void initState() {
-    final List<Variant> variantList =
-        widget.sotrageVariantList;
-    for (var sotrageVariant in variantList) {
-      var item = Container(
-        height: 28,
-
-        margin: const EdgeInsets.only(
-          left: 10,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: Range.grey,
-          ),
-          borderRadius:
-              const BorderRadius.all(
-                Radius.circular(10),
-              ),
-        ),
-        child: Padding(
-          padding:
-              const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-          child: Center(
-            child: Text(
-              '${sotrageVariant.value}',
-              style: TextStyle(
-                fontFamily: 'SB',
-                fontSize: 12,
-              ),
-            ),
-          ),
-        ),
-      );
-      sotrageWidget.add(item);
-    }
-    super.initState();
-  }
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +30,59 @@ class _SotrageVariantListStateState
 
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: sotrageWidget.length,
+            itemCount:
+                widget.sotrageVariantList.length,
             itemBuilder: (context, index) {
-              return sotrageWidget[index];
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                child: Container(
+                  height: 28,
+
+                  margin: const EdgeInsets.only(
+                    left: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border:
+                        (_selectedIndex == index)
+                        ? Border.all(
+                            width: 3,
+
+                            color: Range.green,
+                            //بردر از بیرون میده ، یه جور بزرگ تر میکنه اون ویجت رو
+                            strokeAlign: BorderSide
+                                .strokeAlignOutside,
+                          )
+                        : Border.all(
+                            width: 1,
+                            color: Range.grey,
+                          ),
+                    borderRadius:
+                        const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                    child: Center(
+                      child: Text(
+                        '${widget.sotrageVariantList[index].value}',
+                        style: TextStyle(
+                          fontFamily: 'SB',
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
             },
           ),
         ),
