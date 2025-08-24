@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/bloc/Category/category_event.dart';
-import 'package:store_app/bloc/Category/category_state.dart';
+import 'package:store_app/bloc/category/category_event.dart';
+import 'package:store_app/bloc/category/category_state.dart';
 import 'package:store_app/data/repository/category_repository.dart';
 import 'package:store_app/di/di.dart';
 

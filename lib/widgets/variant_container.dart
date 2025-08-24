@@ -4,28 +4,33 @@ import 'package:store_app/data/model/variants_type/variants_types.dart';
 import 'package:store_app/widgets/color_varintLists.dart';
 import 'package:store_app/widgets/sotrage_variant_list_state.dart';
 
-class VariantContainer
-    extends StatelessWidget {
-  final List<ProductVariant>
-  productVariantList;
+class VariantContainer extends StatefulWidget {
+  final List<ProductVariant> productVariantList;
+
   const VariantContainer({
     super.key,
     required this.productVariantList,
   });
 
   @override
+  State<VariantContainer> createState() =>
+      _VariantContainerState();
+}
+
+class _VariantContainerState
+    extends State<VariantContainer> {
+  @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Column(
         children: [
           for (var productVariant
-              in productVariantList) ...[
+              in widget.productVariantList) ...[
             if (productVariant
                 .variantList
                 .isNotEmpty) ...[
               VarianGeneratorChild(
-                productVariant:
-                    productVariant,
+                productVariant: productVariant,
               ),
             ],
           ],
@@ -56,9 +61,7 @@ class VarianGeneratorChild
         children: [
           SizedBox(height: 10),
           Text(
-            productVariant
-                .variantsType
-                .title,
+            productVariant.variantsType.title,
             style: TextStyle(
               fontFamily: 'sm',
               fontSize: 12,
@@ -73,23 +76,20 @@ class VarianGeneratorChild
               if (productVariant
                       .variantsType
                       .type ==
-                  VariantsTypeEnum
-                      .color) ...[
+                  VariantsTypeEnum.color) ...[
                 ColorVariantLists(
-                  variantList: productVariant
-                      .variantList,
+                  variantList:
+                      productVariant.variantList,
                 ),
               ],
 
               if (productVariant
                       .variantsType
                       .type ==
-                  VariantsTypeEnum
-                      .storage) ...[
+                  VariantsTypeEnum.storage) ...[
                 SotrageVariantListState(
                   sotrageVariantList:
-                      productVariant
-                          .variantList,
+                      productVariant.variantList,
                 ),
               ],
             ],

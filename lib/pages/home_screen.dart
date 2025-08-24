@@ -22,8 +22,7 @@ class HomeScreen extends StatefulWidget {
       _HomeScreenState();
 }
 
-class _HomeScreenState
-    extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     BlocProvider.of<HomeBloc>(
@@ -49,8 +48,7 @@ class _HomeScreenState
                 //چون اسلیور یه لیسته از [] استفاده می کنیم ن
                 //Spread Operator
                 //loding
-                if (state
-                    is HomeLodingState) ...[
+                if (state is HomeLodingState) ...[
                   SliverToBoxAdapter(
                     child: Column(
                       mainAxisAlignment:
@@ -166,8 +164,7 @@ class _GetBanners extends StatelessWidget {
   }
 }
 
-class _GetcategoryList
-    extends StatelessWidget {
+class _GetcategoryList extends StatelessWidget {
   final List<Categorys> list;
   const _GetcategoryList({
     super.key,
@@ -177,9 +174,28 @@ class _GetcategoryList
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 100,
-        child: Squircle(list: list),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 5,
+          left: 10,
+        ),
+        child: SizedBox(
+          height: 100,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  right: 10,
+                ),
+                child: Squircle(
+                  ctegory: list[index],
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -198,9 +214,7 @@ class _GetMostViewedProduct
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.only(
-          right: 30,
-        ),
+        padding: const EdgeInsets.only(right: 15),
         child: SizedBox(
           height: 200,
           child: ProductItem(list: list),
@@ -221,7 +235,7 @@ class _GetMostViewedTitle
         padding: const EdgeInsets.only(
           top: 30,
           left: 30,
-          right: 44,
+          right: 20,
           bottom: 15,
         ),
         child: Row(
@@ -266,9 +280,7 @@ class _GetBestsellerProducts
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.only(
-          right: 30,
-        ),
+        padding: const EdgeInsets.only(right: 15),
         child: SizedBox(
           height: 200,
           child: ProductItem(list: list),
@@ -288,7 +300,7 @@ class _GetBestsellerTitle
       child: Padding(
         padding: const EdgeInsets.only(
           left: 30,
-          right: 44,
+          right: 20,
           bottom: 15,
           top: 10,
         ),
@@ -333,7 +345,7 @@ class _GetcategoryListTitle
       child: Padding(
         padding: const EdgeInsets.only(
           left: 44,
-          right: 44,
+          right: 20,
           bottom: 15,
           top: 20,
         ),

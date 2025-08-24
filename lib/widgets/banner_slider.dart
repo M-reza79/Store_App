@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/model/banner/banners.dart';
- 
+
 import 'package:store_app/widgets/cached_image.dart';
 
 class BannerSlider extends StatelessWidget {
@@ -30,11 +30,10 @@ class BannerSlider extends StatelessWidget {
               return Container(
                 margin:
                     const EdgeInsets.symmetric(
-                      horizontal: 6,
+                      horizontal: 5,
                     ),
                 child: CachedkImage(
-                  imageUrl:
-                      list[index].thumbnail,
+                  imageUrl: list[index].thumbnail,
                   radius: 15,
                 ),
               );

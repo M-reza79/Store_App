@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/bloc/Category/category_bloc.dart';
+import 'package:store_app/bloc/category/category_bloc.dart';
 import 'package:store_app/bloc/homescreen/home_bloc.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/di/di.dart';

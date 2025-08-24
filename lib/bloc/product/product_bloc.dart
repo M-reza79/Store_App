@@ -24,17 +24,24 @@ class ProductDetailBloc
       final responseProduct = await _repository
           .getGallerysR(event.productId);
       final responseProductVariant =
-          await _repository.getProductVariantR();
+          await _repository.getProductVariantR(
+            event.productId,
+          );
 
       final responsecategorysId =
           await _repository.getProductCategoryR(
             event.categorysId,
+          );
+      final responsePropertiesId =
+          await _repository.getProductPropertiesR(
+            event.productId,
           );
       emit(
         ProductDetailResponseState(
           responseProduct,
           responseProductVariant,
           responsecategorysId,
+          responsePropertiesId,
         ),
       );
     });

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/bloc/Category/category_bloc.dart';
-import 'package:store_app/bloc/Category/category_event.dart';
-import 'package:store_app/bloc/Category/category_state.dart';
+import 'package:store_app/bloc/category/category_bloc.dart';
+import 'package:store_app/bloc/category/category_event.dart';
+import 'package:store_app/bloc/category/category_state.dart';
+import 'package:store_app/bloc/categoryProduct/category_product_bloc.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/model/category/categorys.dart';
 import 'package:store_app/data/repository/category_repository.dart';
- 
+import 'package:store_app/pages/product_list_screen.dart';
+
 import 'package:store_app/widgets/cached_image.dart';
+import 'package:store_app/widgets/nviagt.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -38,28 +41,24 @@ class _CategoryScreenState
           slivers: [
             SliverToBoxAdapter(
               child: Padding(
-                padding:
-                    const EdgeInsets.only(
-                      top: 5,
-                      right: 30,
-                      left: 30,
-                      bottom: 30,
-                    ),
+                padding: const EdgeInsets.only(
+                  top: 5,
+                  right: 30,
+                  left: 30,
+                  bottom: 30,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.all(
-                          Radius.circular(
-                            15,
-                          ),
+                          Radius.circular(15),
                         ),
                   ),
                   height: 46,
                   child: Row(
                     crossAxisAlignment:
-                        CrossAxisAlignment
-                            .center,
+                        CrossAxisAlignment.center,
                     children: [
                       SizedBox(width: 16),
                       Image.asset(
@@ -70,8 +69,7 @@ class _CategoryScreenState
                         child: Text(
                           'دسته بندی',
                           textAlign:
-                              TextAlign
-                                  .center,
+                              TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'SB',
                             fontSize: 16,
@@ -100,8 +98,7 @@ class _CategoryScreenState
                 //
                 if (state
                     is CategoryResponseState) {
-                  return state
-                      .responseCategory
+                  return state.responseCategory
                       .fold(
                         (l) {
                           return SliverToBoxAdapter(
@@ -145,15 +142,28 @@ class _ListCategory extends StatelessWidget {
         left: 30,
       ),
       sliver: SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return CachedkImage(
-              imageUrl:
-                  list[index].thumbnail,
-            );
-          },
-          childCount: list.length,
-        ),
+        delegate: SliverChildBuilderDelegate((
+          context,
+          index,
+        ) {
+          return InkWell(
+            onTap: () {
+              nviagt(
+                context,
+                BlocProvider(
+                  create: (context) =>
+                      CategoryProductBloc(),
+                  child: ProductListScreen(
+                    ctegory: list[index],
+                  ),
+                ),
+              );
+            },
+            child: CachedkImage(
+              imageUrl: list[index].thumbnail,
+            ),
+          );
+        }, childCount: list.length),
         gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

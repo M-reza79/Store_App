@@ -9,6 +9,7 @@ import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/model/category/categorys.dart';
 import 'package:store_app/data/model/gallery/product_image.dart';
 import 'package:store_app/data/model/product/products.dart';
+import 'package:store_app/data/model/properties/properties.dart';
 
 import 'package:store_app/widgets/cached_image.dart';
 
@@ -150,7 +151,7 @@ class _ProductDetailScreenState
                             bottom: 10,
                           ),
                       child: Text(
-                        'se 2022 آیفون',
+                        widget.products.name,
                         textAlign:
                             TextAlign.center,
                         style: TextStyle(
@@ -199,143 +200,27 @@ class _ProductDetailScreenState
                     ),
                   ],
 
-                  // if (state
-                  //     is ProductDetailResponseState) ...[
-                  //   state.responseProductVariant.fold(
-                  //     (l) {
-                  //       return SliverToBoxAdapter(
-                  //         child: Text(l),
-                  //       );
-                  //     },
-                  //     (productVariantList) {
-                  //       return GetHafeze(
-                  //         productVariantList:
-                  //             productVariantList,
-                  //       );
-                  //     },
-                  //   ),
-                  // ],
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(
-                            right: 30,
-                            left: 30,
-                            top: 10,
-                          ),
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 1,
-                          color: Range.grey,
-                        ),
-                        borderRadius:
-                            BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .center,
-                        children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Image.asset(
-                            'assets/images/icon_left_categroy.png',
-                            color:
-                                Range.blueporange,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'مشاهده',
-                            style: TextStyle(
-                              fontFamily: 'SB',
-                              fontSize: 12,
-                              color: Range
-                                  .blueIndicator,
-                            ),
-                          ),
-                          const Spacer(),
-                          const Text(
-                            ':مشخصات فنی',
-                            style: TextStyle(
-                              fontFamily: 'sm',
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
+                  if (state
+                      is ProductDetailResponseState) ...[
+                    state.responseProductProperties.fold(
+                      (l) {
+                        return SliverToBoxAdapter(
+                          child: Text(l),
+                        );
+                      },
+                      (productVariantList) {
+                        return GetProductProperties(
+                          productPropertiList:
+                              productVariantList,
+                        );
+                      },
                     ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(
-                            right: 30,
-                            left: 30,
-                            top: 10,
-                          ),
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 1,
-                          color: Range.grey,
-                        ),
-                        borderRadius:
-                            BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .center,
-                        children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Image.asset(
-                            'assets/images/icon_left_categroy.png',
-                            color:
-                                Range.blueporange,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'مشاهده',
-                            style: TextStyle(
-                              fontFamily: 'SB',
-                              fontSize: 12,
-                              color: Range
-                                  .blueIndicator,
-                            ),
-                          ),
-                          const Spacer(),
-                          const Text(
-                            ':توضیحات محصول',
-                            style: TextStyle(
-                              fontFamily: 'sm',
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                    ),
+                  ],
+
+                  GetProductDescription(
+                    productDescription: widget
+                        .products
+                        .description,
                   ),
                   SliverToBoxAdapter(
                     child: Container(
@@ -550,215 +435,253 @@ class _ProductDetailScreenState
   }
 }
 
-// class GetHafeze extends StatelessWidget {
-//   final List<ProductVariant>
-//   productVariantList;
-//   const GetHafeze({
-//     super.key,
-//     required this.productVariantList,
-//   });
+class GetProductProperties
+    extends StatefulWidget {
+  final List<Properties> productPropertiList;
+  const GetProductProperties({
+    super.key,
+    required this.productPropertiList,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliverToBoxAdapter(
-//       child: Padding(
-//         padding: const EdgeInsets.only(
-//           top: 5,
-//           left: 30,
-//           right: 30,
-//         ),
-//         child: Column(
-//           crossAxisAlignment:
-//               CrossAxisAlignment.end,
-//           children: [
-//             SizedBox(height: 10),
-//             Text(
-//               productVariantList[1]
-//                   .variantsType
-//                   .title,
-//               style: TextStyle(
-//                 fontFamily: 'sm',
-//                 fontSize: 12,
-//                 color: Colors.black,
-//               ),
-//             ),
-//             SizedBox(height: 10),
-//             Row(
-//               mainAxisAlignment:
-//                   MainAxisAlignment.end,
-//               children: [
-//                 SotrageVariantListState(
-//                   sotrageVariantList:
-//                       productVariantList[1]
-//                           .variantList,
-//                 ),
-//                 // Container(
-//                 //   height: 28,
+  @override
+  State<GetProductProperties> createState() =>
+      _GetProductPropertiesState();
+}
 
-//                 //   margin:
-//                 //       const EdgeInsets.only(
-//                 //         left: 10,
-//                 //       ),
-//                 //   decoration: BoxDecoration(
-//                 //     color: Colors.white,
-//                 //     border: Border.all(
-//                 //       width: 1,
-//                 //       color: Range.grey,
-//                 //     ),
-//                 //     borderRadius:
-//                 //         const BorderRadius.all(
-//                 //           Radius.circular(
-//                 //             10,
-//                 //           ),
-//                 //         ),
-//                 //   ),
-//                 //   child: Padding(
-//                 //     padding:
-//                 //         const EdgeInsets.symmetric(
-//                 //           horizontal: 20,
-//                 //         ),
-//                 //     child: Center(
-//                 //       child: Text(
-//                 //         '128',
-//                 //         style: TextStyle(
-//                 //           fontFamily: 'SB',
-//                 //           fontSize: 12,
-//                 //         ),
-//                 //       ),
-//                 //     ),
-//                 //   ),
-//                 // ),
-//                 // Container(
-//                 //   height: 28,
+class _GetProductPropertiesState
+    extends State<GetProductProperties> {
+  bool _isVisble = false;
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                _isVisble = !_isVisble;
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.only(
+                right: 30,
+                left: 30,
+                top: 10,
+              ),
+              height: 46,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  width: 1,
+                  color: Range.grey,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 10),
+                  Image.asset(
+                    'assets/images/icon_left_categroy.png',
+                    color: Range.blueporange,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'مشاهده',
+                    style: TextStyle(
+                      fontFamily: 'SB',
+                      fontSize: 12,
+                      color: Range.blueIndicator,
+                    ),
+                  ),
+                  const Spacer(),
+                  const Text(
+                    ':مشخصات فنی',
+                    style: TextStyle(
+                      fontFamily: 'sm',
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _isVisble,
+            child: Container(
+              margin: const EdgeInsets.only(
+                right: 30,
+                left: 30,
+                top: 10,
+              ),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  width: 1,
+                  color: Range.grey,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics:
+                    NeverScrollableScrollPhysics(),
+                itemCount: widget
+                    .productPropertiList
+                    .length,
+                itemBuilder: (context, index) {
+                  var property = widget
+                      .productPropertiList[index];
+                  return Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.end,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '${property.value} : ${property.title}',
+                          textAlign:
+                              TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'sm',
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-//                 //   margin:
-//                 //       const EdgeInsets.only(
-//                 //         left: 10,
-//                 //       ),
-//                 //   decoration: BoxDecoration(
-//                 //     color: Colors.white,
-//                 //     border: Border.all(
-//                 //       width: 1,
-//                 //       color: Range.grey,
-//                 //     ),
-//                 //     borderRadius:
-//                 //         const BorderRadius.all(
-//                 //           Radius.circular(
-//                 //             10,
-//                 //           ),
-//                 //         ),
-//                 //   ),
-//                 //   child: Padding(
-//                 //     padding:
-//                 //         const EdgeInsets.symmetric(
-//                 //           horizontal: 20,
-//                 //         ),
-//                 //     child: Center(
-//                 //       child: Text(
-//                 //         '128',
-//                 //         style: TextStyle(
-//                 //           fontFamily: 'SB',
-//                 //           fontSize: 12,
-//                 //         ),
-//                 //       ),
-//                 //     ),
-//                 //   ),
-//                 // ),
-//                 // Container(
-//                 //   height: 28,
+class GetProductDescription
+    extends StatefulWidget {
+  final String productDescription;
+  const GetProductDescription({
+    super.key,
+    required this.productDescription,
+  });
 
-//                 //   margin:
-//                 //       const EdgeInsets.only(
-//                 //         left: 10,
-//                 //       ),
-//                 //   decoration: BoxDecoration(
-//                 //     color: Colors.white,
-//                 //     border: Border.all(
-//                 //       width: 1,
-//                 //       color: Range.grey,
-//                 //     ),
-//                 //     borderRadius:
-//                 //         const BorderRadius.all(
-//                 //           Radius.circular(
-//                 //             10,
-//                 //           ),
-//                 //         ),
-//                 //   ),
-//                 //   child: Padding(
-//                 //     padding:
-//                 //         const EdgeInsets.symmetric(
-//                 //           horizontal: 20,
-//                 //         ),
-//                 //     child: Center(
-//                 //       child: Text(
-//                 //         '128',
-//                 //         style: TextStyle(
-//                 //           fontFamily: 'SB',
-//                 //           fontSize: 12,
-//                 //         ),
-//                 //       ),
-//                 //     ),
-//                 //   ),
-//                 // ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  State<GetProductDescription> createState() =>
+      _GetProductDescriptionState();
+}
 
-// class VariantRangContainer
-//     extends StatelessWidget {
-//   final List<ProductVariant>
-//   productVariantList;
-
-//   const VariantRangContainer({
-//     super.key,
-//     required this.productVariantList,
-//   });
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliverToBoxAdapter(
-//       child: Padding(
-//         padding: const EdgeInsets.only(
-//           left: 30,
-//           right: 30,
-//         ),
-//         child: Column(
-//           crossAxisAlignment:
-//               CrossAxisAlignment.end,
-//           children: [
-//             SizedBox(height: 10),
-//             Text(
-//               productVariantList[0]
-//                   .variantsType
-//                   .title,
-//               style: TextStyle(
-//                 fontFamily: 'sm',
-//                 fontSize: 12,
-//                 color: Colors.black,
-//               ),
-//             ),
-//             SizedBox(height: 10),
-//             Row(
-//               mainAxisAlignment:
-//                   MainAxisAlignment.end,
-//               children: [
-//                 ColorVariantLists(
-//                   variantList:
-//                       productVariantList[0]
-//                           .variantList,
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class _GetProductDescriptionState
+    extends State<GetProductDescription> {
+  bool _isVisble = false;
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                _isVisble = !_isVisble;
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.only(
+                right: 30,
+                left: 30,
+                top: 10,
+              ),
+              height: 46,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  width: 1,
+                  color: Range.grey,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 10),
+                  Image.asset(
+                    'assets/images/icon_left_categroy.png',
+                    color: Range.blueporange,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'مشاهده',
+                    style: TextStyle(
+                      fontFamily: 'SB',
+                      fontSize: 12,
+                      color: Range.blueIndicator,
+                    ),
+                  ),
+                  const Spacer(),
+                  const Text(
+                    ':توضیحات محصول',
+                    style: TextStyle(
+                      fontFamily: 'sm',
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _isVisble,
+            child: Container(
+              margin: const EdgeInsets.only(
+                right: 30,
+                left: 30,
+                top: 10,
+              ),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  width: 1,
+                  color: Range.grey,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+              ),
+              child: Flexible(
+                child: Text(
+                  widget.productDescription,
+                  style: TextStyle(
+                    fontFamily: 'sm',
+                    fontSize: 16,
+                    height: 1.5,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _GallerWidget extends StatefulWidget {
   final List<ProductImage> productImageList;
@@ -1113,306 +1036,3 @@ class PriceTagButton extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-//  SliverToBoxAdapter(
-//               child: Padding(
-//                 padding:
-//                     const EdgeInsets.only(
-//                       top: 20,
-//                       bottom: 500,
-//                       right: 30,
-//                       left: 30,
-//                     ),
-//                 child: Row(
-//                   mainAxisAlignment:
-//                       MainAxisAlignment
-//                           .center,
-//                   children: [
-//                     SizedBox(
-//                       height: 60,
-//                       child: Padding(
-//                         padding: const EdgeInsets.only( right: 30,
-//                       left: 30,),
-//                         child: Stack(
-//                           clipBehavior:
-//                               Clip.none,
-//                           alignment:
-//                               Alignment.center,
-//                           children: [
-//                             Padding(
-//                               padding:
-//                                   const EdgeInsets.all(
-//                                     10,
-//                                   ),
-//                               child: Container(
-//                                 decoration: BoxDecoration(
-//                                   color: Range
-//                                       .green,
-//                                   borderRadius:
-//                                       BorderRadius.all(
-//                                         Radius.circular(
-//                                           15,
-//                                         ),
-//                                       ),
-//                                 ),
-//                               ),
-//                             ),
-//                             Positioned(
-//                               top: 7,
-//                               child: ClipRRect(
-//                                 borderRadius:
-//                                     BorderRadius.all(
-//                                       Radius.circular(
-//                                         15,
-//                                       ),
-//                                     ),
-//                                 child: BackdropFilter(
-//                                   filter:
-//                                       ImageFilter.blur(
-//                                         sigmaX:
-//                                             50,
-//                                         sigmaY:
-//                                             50,
-//                                       ),
-//                                   child: Container(
-//                                     decoration: BoxDecoration(
-//                                       border: Border.all(
-//                                         color:
-//                                             Colors.white,
-//                                       ),
-//                                       color: Colors
-//                                           .transparent,
-//                                     ),
-//                                     child: Padding(
-//                                       padding: const EdgeInsets.symmetric(
-//                                         horizontal:
-//                                             10,
-//                                       ),
-//                                       child: Row(
-//                                         crossAxisAlignment:
-//                                             CrossAxisAlignment.center,
-//                                         children: [
-//                                           Text(
-//                                             'تومان',
-//                                             style: TextStyle(
-//                                               fontFamily: 'SB',
-//                                               fontSize: 12,
-//                                               color: Colors.white,
-//                                             ),
-//                                           ),
-//                                           SizedBox(
-//                                             width: 10,
-//                                           ),
-//                                           Column(
-//                                             mainAxisAlignment: MainAxisAlignment.center,
-//                                             crossAxisAlignment: CrossAxisAlignment.start,
-//                                             children: [
-//                                               Text(
-//                                                 '17,800,00',
-//                                                 style: TextStyle(
-//                                                   fontFamily: 'SB',
-//                                                   fontSize: 10,
-//                                                   color: Colors.white,
-//                                                 ),
-//                                               ),
-//                                               Text(
-//                                                 '16,489,000',
-//                                                 style: TextStyle(
-//                                                   fontFamily: 'SB',
-//                                                   fontSize: 14,
-//                                                   color: Colors.white,
-//                                                 ),
-//                                               ),
-//                                             ],
-//                                           ),
-//                                           Spacer(),
-//                                           Container(
-//                                             decoration: BoxDecoration(
-//                                               color: Range.red,
-//                                               borderRadius: BorderRadius.all(
-//                                                 Radius.circular(
-//                                                   15,
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                             child: Padding(
-//                                               padding: const EdgeInsets.symmetric(
-//                                                 horizontal: 5,
-//                                                 vertical: 2,
-//                                               ),
-//                                               child: Text(
-//                                                 '%25',
-//                                                 style: TextStyle(
-//                                                   color: Colors.white,
-//                                                   fontFamily: 'SB',
-//                                                   fontSize: 10,
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     SizedBox(width: 30),
-//                     SizedBox(
-//                       height: 60,
-//                       child: Padding(
-//                         padding: const EdgeInsets.only( right: 30,
-//                       left: 30,),
-//                         child: Stack(
-//                           clipBehavior:
-//                               Clip.none,
-//                           alignment:
-//                               Alignment.center,
-//                           children: [
-//                             Padding(
-//                               padding:
-//                                   const EdgeInsets.all(
-//                                     10,
-//                                   ),
-//                               child: Container(
-                            
-                        
-//                                 decoration: BoxDecoration(
-//                                   color: Range
-//                                       .blueIndicator,
-//                                   borderRadius:
-//                                       BorderRadius.all(
-//                                         Radius.circular(
-//                                           15,
-//                                         ),
-//                                       ),
-//                                 ),
-//                               ),
-//                             ),
-//                             Positioned(
-//                               top: 7,
-//                               child: ClipRRect(
-//                                 borderRadius:
-//                                     BorderRadius.all(
-//                                       Radius.circular(
-//                                         15,
-//                                       ),
-//                                     ),
-//                                 child: BackdropFilter(
-//                                   filter:
-//                                       ImageFilter.blur(
-//                                         sigmaX:
-//                                             50,
-//                                         sigmaY:
-//                                             50,
-//                                       ),
-//                                   child: Container(
-                              
-                        
-//                                     decoration: BoxDecoration(
-//                                       border: Border.all(
-//                                         color: Colors
-//                                             .white,
-//                                       ),
-//                                       color: Colors
-//                                           .transparent,
-//                                     ),
-//                                     child: Padding(
-//                                       padding: const EdgeInsets.symmetric(
-//                                         horizontal:
-//                                             10,
-//                                       ),
-//                                       child: Row(
-//                                         crossAxisAlignment:
-//                                             CrossAxisAlignment
-//                                                 .center,
-//                                         children: [
-//                                           Text(
-//                                             'تومان',
-//                                             style: TextStyle(
-//                                               fontFamily: 'SB',
-//                                               fontSize: 12,
-//                                               color: Colors.white,
-//                                             ),
-//                                           ),
-//                                           SizedBox(
-//                                             width:
-//                                                 10,
-//                                           ),
-//                                           Column(
-//                                             mainAxisAlignment:
-//                                                 MainAxisAlignment.center,
-//                                             crossAxisAlignment:
-//                                                 CrossAxisAlignment.start,
-//                                             children: [
-//                                               Text(
-//                                                 '17,800,00',
-//                                                 style: TextStyle(
-//                                                   fontFamily: 'SB',
-//                                                   fontSize: 10,
-//                                                   color: Colors.white,
-//                                                 ),
-//                                               ),
-//                                               Text(
-//                                                 '16,489,000',
-//                                                 style: TextStyle(
-//                                                   fontFamily: 'SB',
-//                                                   fontSize: 14,
-//                                                   color: Colors.white,
-//                                                 ),
-//                                               ),
-//                                             ],
-//                                           ),
-//                                           Spacer(),
-//                                           Container(
-//                                             decoration: BoxDecoration(
-//                                               color: Range.red,
-//                                               borderRadius: BorderRadius.all(
-//                                                 Radius.circular(
-//                                                   15,
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                             child: Padding(
-//                                               padding: const EdgeInsets.symmetric(
-//                                                 horizontal: 5,
-//                                                 vertical: 2,
-//                                               ),
-//                                               child: Text(
-//                                                 '%25',
-//                                                 style: TextStyle(
-//                                                   color: Colors.white,
-//                                                   fontFamily: 'SB',
-//                                                   fontSize: 10,
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),

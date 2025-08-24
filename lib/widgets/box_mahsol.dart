@@ -83,12 +83,8 @@ class BakcshBalaii extends StatelessWidget {
           height: 53,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(
-                15,
-              ),
-              bottomRight: Radius.circular(
-                15,
-              ),
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
             ),
             color: Range.blue,
             boxShadow: [
@@ -101,46 +97,39 @@ class BakcshBalaii extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding:
-                EdgeInsetsGeometry.symmetric(
-                  horizontal: 10,
-                ),
+            padding: EdgeInsetsGeometry.symmetric(
+              horizontal: 10,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment:
                   CrossAxisAlignment.center,
               children: [
-                Text(
-                  'تومان ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'sm',
-                    fontSize: 12,
+                SizedBox(
+                  width: 24,
+                  child: Image.asset(
+                    'assets/images/icon_right_arrow_cricle.png',
                   ),
                 ),
-                SizedBox(width: 5),
+                Spacer(),
+
                 Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                      CrossAxisAlignment.start,
                   mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
+                      MainAxisAlignment.center,
                   children: [
                     Text(
-                      product.price
-                          .toString(),
+                      product.price.toString(),
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'sm',
                         fontSize: 12,
-                        decoration:
-                            TextDecoration
-                                .lineThrough,
+                        decoration: TextDecoration
+                            .lineThrough,
 
                         //کلفتی خط
-                        decorationThickness:
-                            2.5,
+                        decorationThickness: 2.5,
 
                         decorationColor:
                             Colors.white,
@@ -158,11 +147,14 @@ class BakcshBalaii extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
-                SizedBox(
-                  width: 24,
-                  child: Image.asset(
-                    'assets/images/icon_right_arrow_cricle.png',
+
+                SizedBox(width: 5),
+                Text(
+                  'تومان ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'sm',
+                    fontSize: 12,
                   ),
                 ),
               ],
@@ -218,11 +210,10 @@ class BakshePainii extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 2,
-                  ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 2,
+              ),
               child: Text(
                 '%${product.persent!.round()}',
                 style: TextStyle(
