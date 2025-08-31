@@ -74,6 +74,6 @@ class AuthenticationRemote
     } catch (ex) {
       throw ApiException(0, 'unknown error');
     }
-    return '';
+     
   }
 }

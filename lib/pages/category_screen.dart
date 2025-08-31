@@ -6,7 +6,6 @@ import 'package:store_app/bloc/category/category_state.dart';
 import 'package:store_app/bloc/categoryProduct/category_product_bloc.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/model/category/categorys.dart';
-import 'package:store_app/data/repository/category_repository.dart';
 import 'package:store_app/pages/product_list_screen.dart';
 
 import 'package:store_app/widgets/cached_image.dart';

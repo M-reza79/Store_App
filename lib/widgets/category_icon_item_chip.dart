@@ -3,14 +3,18 @@ import 'package:store_app/constants/colors.dart';
 
 class CategoryIconItemChip
     extends StatelessWidget {
-  const CategoryIconItemChip({super.key});
+  final String imaged;
+  final String titeld;
+  const CategoryIconItemChip({
+    super.key,
+    required this.imaged,
+    required this.titeld,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 10,
-      ),
+      padding: const EdgeInsets.only(left: 10),
       child: Column(
         children: [
           Stack(
@@ -25,16 +29,13 @@ class CategoryIconItemChip
                           40,
                         ),
                   ),
-                  color: Range.red,
+                  color: Range.blue,
                   shadows: [
                     BoxShadow(
-                      color: Range.red,
+                      color: Range.blue,
                       blurRadius: 25,
                       spreadRadius: -13,
-                      offset: Offset(
-                        0.0,
-                        15,
-                      ),
+                      offset: Offset(0.0, 15),
                     ),
                   ],
                 ),
@@ -42,16 +43,21 @@ class CategoryIconItemChip
                 width: 56,
               ),
 
-              Icon(
-                size: 32,
-                Icons.shape_line,
-                color: Colors.white,
+              SizedBox(
+                height: 45,
+                width: 45,
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/$imaged.png',
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
           SizedBox(height: 10),
           Text(
-            'همه',
+            titeld,
             style: TextStyle(
               fontFamily: 'SB',
               fontSize: 12,

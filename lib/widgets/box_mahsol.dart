@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/basket/basket_bloc.dart';
 import 'package:store_app/bloc/product/product_bloc.dart';
 import 'package:store_app/constants/colors.dart';
 import 'package:store_app/data/model/product/products.dart';
+import 'package:store_app/di/di.dart';
 
 import 'package:store_app/pages/product_detail_screen.dart';
 import 'package:store_app/widgets/cached_image.dart';
@@ -20,9 +22,8 @@ class BoxMahsol extends StatelessWidget {
     return GestureDetector(
       onTap: () => nviagt(
         context,
-        BlocProvider(
-          create: (context) =>
-              ProductDetailBloc(),
+        BlocProvider<BasketBloc>.value(
+          value:  locator.get<BasketBloc>(),
           child: ProductDetailScreen(product),
         ),
       ),

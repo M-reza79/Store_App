@@ -4,18 +4,24 @@ import 'package:store_app/bloc/authentication/auth_bloc.dart';
 import 'package:store_app/bloc/authentication/auth_event.dart';
 import 'package:store_app/bloc/authentication/auth_state.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/pages/profile_screen.dart';
+import 'package:store_app/widgets/nviagt.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() =>
+      _LoginScreenState();
+}
+
+class _LoginScreenState
+    extends State<LoginScreen> {
   final _usernameTextController =
-      TextEditingController(
-        text: 'M_reza79',
-      );
+      TextEditingController(text: 'M_reza79');
+
   final _passwordTextController =
-      TextEditingController(
-        text: '123456789',
-      );
+      TextEditingController(text: '123456789');
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +39,13 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment:
                 CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: double.infinity,
-              ),
+              SizedBox(width: double.infinity),
               Expanded(
                 child: Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment
-                          .center,
+                      CrossAxisAlignment.center,
                   mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
+                      MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 100,
@@ -66,20 +68,17 @@ class LoginScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        bottom: 20,
-                      ),
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 20,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius:
                           BorderRadius.all(
-                            Radius.circular(
-                              15,
-                            ),
+                            Radius.circular(15),
                           ),
                     ),
                     child: Directionality(
@@ -103,8 +102,7 @@ class LoginScreen extends StatelessWidget {
                               controller:
                                   _usernameTextController,
                               textAlign:
-                                  TextAlign
-                                      .right,
+                                  TextAlign.right,
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
@@ -115,8 +113,8 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                   borderSide:
                                       BorderSide(
-                                        color:
-                                            Colors.black,
+                                        color: Colors
+                                            .black,
                                       ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -126,24 +124,26 @@ class LoginScreen extends StatelessWidget {
                                           20,
                                         ),
                                       ),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors
-                                        .blue,
-                                  ),
+                                  borderSide:
+                                      BorderSide(
+                                        width: 3,
+                                        color: Colors
+                                            .blue,
+                                      ),
                                 ),
 
                                 labelText:
                                     'نام کاربری',
 
-                                labelStyle: TextStyle(
-                                  color: Colors
-                                      .black,
-                                  fontFamily:
-                                      'SM',
-                                  fontSize:
-                                      18,
-                                ),
+                                labelStyle:
+                                    TextStyle(
+                                      color: Colors
+                                          .black,
+                                      fontFamily:
+                                          'SM',
+                                      fontSize:
+                                          18,
+                                    ),
                               ),
                             ),
                           ),
@@ -159,8 +159,7 @@ class LoginScreen extends StatelessWidget {
                               controller:
                                   _passwordTextController,
                               textAlign:
-                                  TextAlign
-                                      .right,
+                                  TextAlign.right,
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
@@ -171,8 +170,8 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                   borderSide:
                                       BorderSide(
-                                        color:
-                                            Colors.black,
+                                        color: Colors
+                                            .black,
                                       ),
                                 ),
 
@@ -183,24 +182,26 @@ class LoginScreen extends StatelessWidget {
                                           20,
                                         ),
                                       ),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors
-                                        .blue,
-                                  ),
+                                  borderSide:
+                                      BorderSide(
+                                        width: 3,
+                                        color: Colors
+                                            .blue,
+                                      ),
                                 ),
 
                                 labelText:
                                     'رمز عبور',
 
-                                labelStyle: TextStyle(
-                                  color: Colors
-                                      .black,
-                                  fontFamily:
-                                      'SM',
-                                  fontSize:
-                                      18,
-                                ),
+                                labelStyle:
+                                    TextStyle(
+                                      color: Colors
+                                          .black,
+                                      fontFamily:
+                                          'SM',
+                                      fontSize:
+                                          18,
+                                    ),
                               ),
                             ),
                           ),
@@ -213,12 +214,13 @@ class LoginScreen extends StatelessWidget {
                                   is AuthInitiateState) {
                                 return ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    textStyle: TextStyle(
-                                      fontFamily:
-                                          'SB',
-                                      fontSize:
-                                          16,
-                                    ),
+                                    textStyle:
+                                        TextStyle(
+                                          fontFamily:
+                                              'SB',
+                                          fontSize:
+                                              16,
+                                        ),
                                     minimumSize:
                                         Size(
                                           200,
@@ -231,18 +233,27 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    BlocProvider.of<
-                                          AuthBloc
-                                        >(
-                                          context,
-                                        )
-                                        .add(
-                                          AuthLoginRequestEvent(
-                                            _usernameTextController.text,
-                                            _passwordTextController.text,
-                                          ),
-                                        );
+                                  onPressed: () async {
+                                    BlocProvider.of<AuthBloc>(
+                                      context,
+                                    ).add(
+                                      AuthLoginRequestEvent(
+                                        _usernameTextController
+                                            .text,
+                                        _passwordTextController
+                                            .text,
+                                      ),
+                                    );
+                                    WidgetsBinding
+                                        .instance
+                                        .addPostFrameCallback((
+                                          _,
+                                        ) {
+                                          nviagt(
+                                            context,
+                                            ProfileScreen(),
+                                          );
+                                        });
                                   },
                                   child: Text(
                                     'ورود به حساب کاربری ',
@@ -257,20 +268,21 @@ class LoginScreen extends StatelessWidget {
                                   is AuthResponseLodingState) {
                                 Text widget =
                                     Text('');
-                                state.reponse.fold(
-                                  (l) {
-                                    widget =
-                                        Text(
-                                          l,
-                                        );
-                                  },
-                                  (r) {
-                                    widget =
-                                        Text(
-                                          r,
-                                        );
-                                  },
-                                );
+                                state.reponse
+                                    .fold(
+                                      (l) {
+                                        widget =
+                                            Text(
+                                              l,
+                                            );
+                                      },
+                                      (r) {
+                                        widget =
+                                            Text(
+                                              r,
+                                            );
+                                      },
+                                    );
                                 return widget;
                               }
                               return Text(

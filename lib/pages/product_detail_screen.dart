@@ -1,20 +1,17 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/basket/basket_bloc.dart';
+import 'package:store_app/bloc/basket/basket_event.dart';
 import 'package:store_app/bloc/product/product_bloc.dart';
 import 'package:store_app/bloc/product/product_event.dart';
 import 'package:store_app/bloc/product/product_state.dart';
 import 'package:store_app/constants/colors.dart';
-import 'package:store_app/data/model/category/categorys.dart';
 import 'package:store_app/data/model/gallery/product_image.dart';
 import 'package:store_app/data/model/product/products.dart';
 import 'package:store_app/data/model/properties/properties.dart';
-
 import 'package:store_app/widgets/cached_image.dart';
-
 import 'package:store_app/widgets/darsad_off.dart';
-
 import 'package:store_app/widgets/variant_container.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -33,18 +30,34 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState
     extends State<ProductDetailScreen> {
   @override
-  void initState() {
-    //بلاک پراویدر که اینوت بفرسته گذاشتیم  توی اینیت که  با ساخته شدن اینم بفرسته
-    BlocProvider.of<ProductDetailBloc>(
-      context,
-    ).add(
-      ProductDetailInitializeEvent(
-        widget.products.id.toString(),
-        widget.products.categoryId.toString(),
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        final bloc = ProductDetailBloc();
+        bloc.add(
+          ProductDetailInitializeEvent(
+            //بلاک پراویدر که اینوت بفرسته گذاشتیم  توی اولش که  با ساخته شدن اینم بفرسته
+            widget.products.id.toString(),
+            widget.products.categoryId.toString(),
+          ),
+        );
+        return bloc;
+      },
+      child: DetaillContentWidget(
+        parentWidget: widget,
       ),
     );
-    super.initState();
   }
+}
+
+class DetaillContentWidget
+    extends StatelessWidget {
+  const DetaillContentWidget({
+    super.key,
+    required this.parentWidget,
+  });
+
+  final ProductDetailScreen parentWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +164,9 @@ class _ProductDetailScreenState
                             bottom: 10,
                           ),
                       child: Text(
-                        widget.products.name,
+                        parentWidget
+                            .products
+                            .name,
                         textAlign:
                             TextAlign.center,
                         style: TextStyle(
@@ -174,7 +189,7 @@ class _ProductDetailScreenState
                       },
                       (productImage) {
                         return _GallerWidget(
-                          widget
+                          parentWidget
                               .products
                               .thumbnail,
                           productImageList:
@@ -218,9 +233,10 @@ class _ProductDetailScreenState
                   ],
 
                   GetProductDescription(
-                    productDescription: widget
-                        .products
-                        .description,
+                    productDescription:
+                        parentWidget
+                            .products
+                            .description,
                   ),
                   SliverToBoxAdapter(
                     child: Container(
@@ -419,8 +435,14 @@ class _ProductDetailScreenState
                             MainAxisAlignment
                                 .spaceBetween,
                         children: [
-                          AddToBasketButton1(),
-                          PriceTagButton(),
+                          AddToBasketButton1(
+                            products: parentWidget
+                                .products,
+                          ),
+                          PriceTagButton(
+                            products: parentWidget
+                                .products,
+                          ),
                         ],
                       ),
                     ),
@@ -857,134 +879,167 @@ class _GallerWidgetState
   }
 }
 
-class AddToBasketButton1 extends StatelessWidget {
-  const AddToBasketButton1({super.key});
+class AddToBasketButton1 extends StatefulWidget {
+  final Products products;
+  const AddToBasketButton1({
+    super.key,
+    required this.products,
+  });
 
   @override
+  State<AddToBasketButton1> createState() =>
+      _AddToBasketButton1State();
+}
+
+class _AddToBasketButton1State
+    extends State<AddToBasketButton1> {
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        Container(
-          height: 37,
-          width: 130,
-          decoration: BoxDecoration(
-            color: Range.green,
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        context.read<ProductDetailBloc>().add(
+          ProductAddToBasket(widget.products),
+        );
+      },
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 37,
+            width: 130,
+            decoration: BoxDecoration(
+              color: Range.green,
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
+              ),
             ),
           ),
-        ),
-        Positioned(
-          top: 7,
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 50,
-                sigmaY: 50,
+          Positioned(
+            top: 7,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
               ),
-              child: Container(
-                height: 43,
-                width: 150,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Range.blue,
-                      blurRadius: 100,
-                      spreadRadius: -15,
-                      offset: Offset(0, 10),
-                    ),
-                  ],
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                  color: Colors.transparent,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 50,
+                  sigmaY: 50,
                 ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(
-                        horizontal: 10,
+                child: Container(
+                  height: 43,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Range.blue,
+                        blurRadius: 100,
+                        spreadRadius: -15,
+                        offset: Offset(0, 10),
                       ),
-                  child: Row(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'تومان',
-                        style: TextStyle(
-                          fontFamily: 'SB',
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment
-                                .center,
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
-                        children: [
-                          Text(
-                            '17,800,00',
-                            style: TextStyle(
-                              fontFamily: 'SB',
-                              fontSize: 10,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '16,489,000',
-                            style: TextStyle(
-                              fontFamily: 'SB',
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      DarsadOff(),
                     ],
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                    child: Row(
+                      crossAxisAlignment:
+                          CrossAxisAlignment
+                              .center,
+                      children: [
+                        Text(
+                          'تومان',
+                          style: TextStyle(
+                            fontFamily: 'SB',
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          mainAxisAlignment:
+                              MainAxisAlignment
+                                  .center,
+                          crossAxisAlignment:
+                              CrossAxisAlignment
+                                  .start,
+                          children: [
+                            Text(
+                              '17,800,00',
+                              style: TextStyle(
+                                fontFamily: 'SB',
+                                fontSize: 10,
+                                color:
+                                    Colors.white,
+                              ),
+                            ),
+                            Text(
+                              '16,489,000',
+                              style: TextStyle(
+                                fontFamily: 'SB',
+                                fontSize: 12,
+                                color:
+                                    Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        DarsadOff(),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
 class PriceTagButton extends StatelessWidget {
-  const PriceTagButton({super.key});
+  final Products products;
+
+  const PriceTagButton({
+    super.key,
+    required this.products,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        Container(
-          height: 37,
-          width: 130,
-          decoration: BoxDecoration(
-            color: Range.blue,
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        context.read<ProductDetailBloc>().add(
+          ProductAddToBasket(products),
+        );
+        context.read<BasketBloc>().add(
+          BasketRequestEvent(),
+        );
+      },
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 37,
+            width: 130,
+            decoration: BoxDecoration(
+              color: Range.blue,
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
+              ),
             ),
           ),
-        ),
-        Positioned(
-          top: 7,
-          child: GestureDetector(
-            onTap: () {},
+          Positioned(
+            top: 7,
             child: ClipRRect(
               borderRadius: BorderRadius.all(
                 Radius.circular(20),
@@ -1018,7 +1073,7 @@ class PriceTagButton extends StatelessWidget {
                         ),
                     child: Center(
                       child: Text(
-                        'افزودن به گک//پگک// خرید',
+                        'افزودن به سبدخرید',
                         style: TextStyle(
                           fontFamily: 'SB',
                           fontSize: 14,
@@ -1031,8 +1086,8 @@ class PriceTagButton extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

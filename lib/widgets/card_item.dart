@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/data/model/carditem/card_item_modl.dart';
+import 'package:store_app/widgets/cached_image.dart';
 import 'package:store_app/widgets/darsad_off.dart';
 
-class CardItem extends StatelessWidget {
-  const CardItem({super.key});
+class CardItem extends StatefulWidget {
+  final CardItemModl carditemModl;
+  const CardItem({
+    super.key,
+    required this.carditemModl,
+  });
 
+  @override
+  State<CardItem> createState() =>
+      _CardItemState();
+}
+
+class _CardItemState extends State<CardItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,24 +35,30 @@ class CardItem extends StatelessWidget {
           ).size.width,
           height: 200,
           child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.end,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(
-                      top: 20,
-                      right: 10,
-                      left: 10,
-                      bottom: 10,
-                    ),
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  right: 10,
+                  left: 10,
+                  bottom: 10,
+                ),
                 child: Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.end,
                   children: [
+                    Spacer(),
                     Column(
                       crossAxisAlignment:
-                          CrossAxisAlignment
-                              .end,
+                          CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'آیفون 13 پرومکس',
+                          widget
+                              .carditemModl
+                              .name,
+
                           style: TextStyle(
                             fontFamily: 'SB',
                             fontSize: 14,
@@ -50,8 +68,7 @@ class CardItem extends StatelessWidget {
                         Text(
                           'گارانتی 18 ماه مدیا پردازش',
                           style: TextStyle(
-                            color:
-                                Range.grey,
+                            color: Range.grey,
                             fontFamily: 'SM',
                             fontSize: 10,
                           ),
@@ -60,346 +77,57 @@ class CardItem extends StatelessWidget {
                         Row(
                           children: [
                             DarsadOff(),
-                            SizedBox(
-                              width: 5,
-                            ),
+                            SizedBox(width: 5),
                             Text(
                               'تومان',
                               style: TextStyle(
-                                color: Range
-                                    .grey,
-                                fontFamily:
-                                    'SB',
+                                color: Range.grey,
+                                fontFamily: 'SB',
                                 fontSize: 10,
                               ),
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
+                            SizedBox(width: 5),
                             Text(
-                              '46,000,000',
+                              '${widget.carditemModl.price}',
                               style: TextStyle(
-                                color: Range
-                                    .grey,
-                                fontFamily:
-                                    'SB',
+                                color: Range.grey,
+                                fontFamily: 'SB',
                                 fontSize: 10,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 5),
-                        Row(
+                        Wrap(
+                          spacing: 8,
                           children: [
-                            Container(
-                              height: 20,
+                            GetDilited(),
 
-                              margin:
-                                  const EdgeInsets.only(
-                                    left: 10,
-                                  ),
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: Range
-                                      .grey,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(
-                                      Radius.circular(
-                                        5,
-                                      ),
-                                    ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(
-                                      horizontal:
-                                          5,
-                                    ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/icon_options.png',
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          5,
-                                    ),
-                                    Text(
-                                      'سبز کله غازی',
-                                      style: TextStyle(
-                                        fontFamily:
-                                            'sm',
-                                        fontSize:
-                                            8,
-                                        color:
-                                            Range.grey,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          5,
-                                    ),
-                                    Container(
-                                      height:
-                                          10,
-                                      width:
-                                          10,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                          255,
-                                          3,
-                                          98,
-                                          89,
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          200,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 20,
-
-                              margin:
-                                  const EdgeInsets.only(
-                                    left: 10,
-                                  ),
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: Range
-                                      .grey,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(
-                                      Radius.circular(
-                                        5,
-                                      ),
-                                    ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(
-                                      horizontal:
-                                          5,
-                                    ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/icon_options.png',
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          5,
-                                    ),
-                                    Text(
-                                      '256 گیگابایت',
-                                      style: TextStyle(
-                                        fontFamily:
-                                            'sm',
-                                        fontSize:
-                                            8,
-                                        color:
-                                            Range.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Container(
-                              height: 20,
-
-                              margin:
-                                  const EdgeInsets.only(
-                                    left: 10,
-                                  ),
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: Range
-                                      .grey,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(
-                                      Radius.circular(
-                                        5,
-                                      ),
-                                    ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(
-                                      horizontal:
-                                          5,
-                                    ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'حذف',
-                                      style: TextStyle(
-                                        fontFamily:
-                                            'sm',
-                                        fontSize:
-                                            10,
-                                        color:
-                                            Range.grey,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          8,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical:
-                                            2.1,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/icon_trash.png',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 20,
-
-                              margin:
-                                  const EdgeInsets.only(
-                                    left: 10,
-                                  ),
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: Range
-                                      .grey,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(
-                                      Radius.circular(
-                                        5,
-                                      ),
-                                    ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(
-                                      horizontal:
-                                          5,
-                                    ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'ذخیره',
-                                      style: TextStyle(
-                                        fontFamily:
-                                            'sm',
-                                        fontSize:
-                                            10,
-                                        color:
-                                            Range.grey,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          8,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical:
-                                            2.1,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/images/icon_favorite_deactive.png',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 20,
-
-                              margin:
-                                  const EdgeInsets.only(
-                                    left: 10,
-                                  ),
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: Range
-                                      .grey,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(
-                                      Radius.circular(
-                                        5,
-                                      ),
-                                    ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(
-                                      horizontal:
-                                          5,
-                                    ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/icon_options.png',
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          15,
-                                    ),
-                                    Text(
-                                      '1',
-                                      style: TextStyle(
-                                        fontFamily:
-                                            'sm',
-                                        fontSize:
-                                            10,
-                                        color:
-                                            Range.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            OptionCheap(
+                              colorwidejet:
+                                  '17a856',
+                              title: 'tstet',
                             ),
                           ],
                         ),
                       ],
                     ),
+
                     Padding(
                       padding:
                           const EdgeInsets.only(
                             left: 15,
                           ),
-                      child: Image.asset(
-                        'assets/images/iphone.png',
+                      child: SizedBox(
+                        width: 75,
+                        height: 104,
+                        child: Center(
+                          child: CachedkImage(
+                            imageUrl: widget
+                                .carditemModl
+                                .thumbnail,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -414,16 +142,13 @@ class CardItem extends StatelessWidget {
                 painter: DashedLinePainter(),
               ),
 
-              Spacer(),
               Padding(
-                padding:
-                    const EdgeInsets.only(
-                      bottom: 15,
-                    ),
+                padding: const EdgeInsets.only(
+                  bottom: 15,
+                ),
                 child: Row(
                   mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
+                      MainAxisAlignment.center,
                   children: [
                     Text(
                       'تومان',
@@ -434,7 +159,8 @@ class CardItem extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      '38,000,000',
+                      '${widget.carditemModl.realPrice}',
+
                       style: TextStyle(
                         fontFamily: 'SB',
                         fontSize: 14,
@@ -451,8 +177,120 @@ class CardItem extends StatelessWidget {
   }
 }
 
-class DashedLinePainter
-    extends CustomPainter {
+class GetDilited extends StatelessWidget {
+  const GetDilited({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 20,
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Range.grey,
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 5,
+        ),
+        child: GestureDetector(
+          onTap: () {},
+          child: Row(
+            children: [
+              Text(
+                'حذف',
+                style: TextStyle(
+                  fontFamily: 'sm',
+                  fontSize: 10,
+                  color: Range.red,
+                ),
+              ),
+              SizedBox(width: 8),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(
+                      vertical: 2.1,
+                    ),
+                child: Image.asset(
+                  'assets/images/icon_trash.png',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OptionCheap extends StatelessWidget {
+  final String? colorwidejet;
+  final String title;
+  const OptionCheap({
+    super.key,
+    this.colorwidejet,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    int coloreCatgory = int.parse(
+      '0xff$colorwidejet',
+    );
+    return Container(
+      height: 20,
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Range.grey,
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 5,
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: 5),
+            Text(
+              title,
+              textDirection: TextDirection.rtl,
+              style: TextStyle(
+                fontFamily: 'sm',
+                fontSize: 8,
+                color: Range.grey,
+              ),
+            ),
+            SizedBox(width: 5),
+            if (colorwidejet != Null) ...[
+              Container(
+                height: 10,
+                width: 10,
+                decoration: BoxDecoration(
+                  color: Color(coloreCatgory),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DashedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -474,7 +312,234 @@ class DashedLinePainter
   }
 
   @override
-  bool shouldRepaint(
-    CustomPainter oldDelegate,
-  ) => false;
+  bool shouldRepaint(CustomPainter oldDelegate) =>
+      false;
 }
+
+
+
+
+                        // Row(
+                        //   children: [
+                        //     OptionCheap(),
+                        //     Container(
+                        //       height: 20,
+
+                        //       margin:
+                        //           const EdgeInsets.only(
+                        //             left: 10,
+                        //           ),
+                        //       decoration: BoxDecoration(
+                        //         color:
+                        //             Colors.white,
+                        //         border:
+                        //             Border.all(
+                        //               width: 1,
+                        //               color: Range
+                        //                   .grey,
+                        //             ),
+                        //         borderRadius:
+                        //             const BorderRadius.all(
+                        //               Radius.circular(
+                        //                 5,
+                        //               ),
+                        //             ),
+                        //       ),
+                        //       child: Padding(
+                        //         padding:
+                        //             const EdgeInsets.symmetric(
+                        //               horizontal:
+                        //                   5,
+                        //             ),
+                        //         child: Row(
+                        //           children: [
+                        //             SizedBox(
+                        //               width: 5,
+                        //             ),
+                        //             Text(
+                        //               '256 گیگابایت',
+                        //               style: TextStyle(
+                        //                 fontFamily:
+                        //                     'sm',
+                        //                 fontSize:
+                        //                     8,
+                        //                 color: Range
+                        //                     .grey,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 5),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       height: 20,
+
+                        //       margin:
+                        //           const EdgeInsets.only(
+                        //             left: 10,
+                        //           ),
+                        //       decoration: BoxDecoration(
+                        //         color:
+                        //             Colors.white,
+                        //         border:
+                        //             Border.all(
+                        //               width: 1,
+                        //               color: Range
+                        //                   .grey,
+                        //             ),
+                        //         borderRadius:
+                        //             const BorderRadius.all(
+                        //               Radius.circular(
+                        //                 5,
+                        //               ),
+                        //             ),
+                        //       ),
+                        //       child: Padding(
+                        //         padding:
+                        //             const EdgeInsets.symmetric(
+                        //               horizontal:
+                        //                   5,
+                        //             ),
+                        //         child: Row(
+                        //           children: [
+                        //             Text(
+                        //               'حذف',
+                        //               style: TextStyle(
+                        //                 fontFamily:
+                        //                     'sm',
+                        //                 fontSize:
+                        //                     10,
+                        //                 color: Range
+                        //                     .grey,
+                        //               ),
+                        //             ),
+                        //             SizedBox(
+                        //               width: 8,
+                        //             ),
+                        //             Padding(
+                        //               padding: const EdgeInsets.symmetric(
+                        //                 vertical:
+                        //                     2.1,
+                        //               ),
+                        //               child: Image.asset(
+                        //                 'assets/images/icon_trash.png',
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       height: 20,
+
+                        //       margin:
+                        //           const EdgeInsets.only(
+                        //             left: 10,
+                        //           ),
+                        //       decoration: BoxDecoration(
+                        //         color:
+                        //             Colors.white,
+                        //         border:
+                        //             Border.all(
+                        //               width: 1,
+                        //               color: Range
+                        //                   .grey,
+                        //             ),
+                        //         borderRadius:
+                        //             const BorderRadius.all(
+                        //               Radius.circular(
+                        //                 5,
+                        //               ),
+                        //             ),
+                        //       ),
+                        //       child: Padding(
+                        //         padding:
+                        //             const EdgeInsets.symmetric(
+                        //               horizontal:
+                        //                   5,
+                        //             ),
+                        //         child: Row(
+                        //           children: [
+                        //             Text(
+                        //               'ذخیره',
+                        //               style: TextStyle(
+                        //                 fontFamily:
+                        //                     'sm',
+                        //                 fontSize:
+                        //                     10,
+                        //                 color: Range
+                        //                     .grey,
+                        //               ),
+                        //             ),
+                        //             SizedBox(
+                        //               width: 8,
+                        //             ),
+                        //             Padding(
+                        //               padding: const EdgeInsets.symmetric(
+                        //                 vertical:
+                        //                     2.1,
+                        //               ),
+                        //               child: Image.asset(
+                        //                 'assets/images/icon_favorite_deactive.png',
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       height: 20,
+
+                        //       margin:
+                        //           const EdgeInsets.only(
+                        //             left: 10,
+                        //           ),
+                        //       decoration: BoxDecoration(
+                        //         color:
+                        //             Colors.white,
+                        //         border:
+                        //             Border.all(
+                        //               width: 1,
+                        //               color: Range
+                        //                   .grey,
+                        //             ),
+                        //         borderRadius:
+                        //             const BorderRadius.all(
+                        //               Radius.circular(
+                        //                 5,
+                        //               ),
+                        //             ),
+                        //       ),
+                        //       child: Padding(
+                        //         padding:
+                        //             const EdgeInsets.symmetric(
+                        //               horizontal:
+                        //                   5,
+                        //             ),
+                        //         child: Row(
+                        //           children: [
+                        //             SizedBox(
+                        //               width: 15,
+                        //             ),
+                        //             Text(
+                        //               '1',
+                        //               style: TextStyle(
+                        //                 fontFamily:
+                        //                     'sm',
+                        //                 fontSize:
+                        //                     10,
+                        //                 color: Range
+                        //                     .grey,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
