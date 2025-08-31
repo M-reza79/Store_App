@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:store_app/bloc/basket/basket_bloc.dart';
+import 'package:store_app/bloc/basket/basket_event.dart';
+import 'package:store_app/bloc/category/category_bloc.dart';
+import 'package:store_app/bloc/homescreen/home_bloc.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/data/model/carditem/card_item_modl.dart';
+import 'package:store_app/di/di.dart';
 import 'package:store_app/pages/card_screens.dart';
-
 import 'package:store_app/pages/category_screen.dart';
 import 'package:store_app/pages/home_screen.dart';
-import 'package:store_app/pages/product_detail_screen.dart';
-
 import 'dart:ui';
+import 'package:store_app/pages/login_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(CardItemModlAdapter());
+  await Hive.openBox<CardItemModl>('cardBox');
+
+  await getItInit();
+
   runApp(const MyApp());
 }
 
@@ -16,8 +29,7 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() =>
-      _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -28,18 +40,14 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: IndexedStack(
-          index:
-              selectedBottomNavigationIndex,
+          index: selectedBottomNavigationIndex,
           children: getScreens(),
         ),
         bottomNavigationBar: ClipRRect(
-          borderRadius:
-              BorderRadiusGeometry.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(
-                  15,
-                ),
-              ),
+          borderRadius: BorderRadiusGeometry.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
           child: BackdropFilter(
             filter: ImageFilter.blur(
               sigmaX: 50,
@@ -52,10 +60,8 @@ class _MyAppState extends State<MyApp> {
                       index;
                 });
               },
-              type: BottomNavigationBarType
-                  .fixed,
-              backgroundColor:
-                  Colors.transparent,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.transparent,
               elevation: 0,
               // این انجام بده فکر کنم خودش سایه بده
               //  showSelectedLabels: ,
@@ -71,52 +77,24 @@ class _MyAppState extends State<MyApp> {
                   selectedBottomNavigationIndex,
               items: [
                 BottomNavigationBarItem(
-                  label: 'حساب کاربری',
+                  label: 'خانه',
                   icon: Image.asset(
-                    'assets/images/icon_profile.png',
+                    'assets/images/icon_home.png',
                   ),
                   activeIcon: Container(
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Range
-                              .blueIndicator,
+                          color:
+                              Range.blueIndicator,
                           blurRadius: 20,
                           spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
+                          offset: Offset(0, 13),
                         ),
                       ],
                     ),
                     child: Image.asset(
-                      'assets/images/icon_profile_active.png',
-                    ),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: 'سبد خرید ',
-                  icon: Image.asset(
-                    'assets/images/icon_basket.png',
-                  ),
-                  activeIcon: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Range
-                              .blueIndicator,
-                          blurRadius: 20,
-                          spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Image.asset(
-                      'assets/images/icon_basket_active.png',
+                      'assets/images/icon_home_active.png',
                     ),
                   ),
                 ),
@@ -129,14 +107,11 @@ class _MyAppState extends State<MyApp> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Range
-                              .blueIndicator,
+                          color:
+                              Range.blueIndicator,
                           blurRadius: 20,
                           spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
+                          offset: Offset(0, 13),
                         ),
                       ],
                     ),
@@ -146,27 +121,47 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'خانه',
+                  label: 'سبد خرید ',
                   icon: Image.asset(
-                    'assets/images/icon_home.png',
+                    'assets/images/icon_basket.png',
                   ),
                   activeIcon: Container(
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Range
-                              .blueIndicator,
+                          color:
+                              Range.blueIndicator,
                           blurRadius: 20,
                           spreadRadius: -7,
-                          offset: Offset(
-                            0,
-                            13,
-                          ),
+                          offset: Offset(0, 13),
                         ),
                       ],
                     ),
                     child: Image.asset(
-                      'assets/images/icon_home_active.png',
+                      'assets/images/icon_basket_active.png',
+                    ),
+                  ),
+                ),
+
+                BottomNavigationBarItem(
+                  label: 'حساب کاربری',
+                  icon: Image.asset(
+                    'assets/images/icon_profile.png',
+                  ),
+                  activeIcon: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Range.blueIndicator,
+                          blurRadius: 20,
+                          spreadRadius: -7,
+                          offset: Offset(0, 13),
+                        ),
+                      ],
+                    ),
+                    child: Image.asset(
+                      'assets/images/icon_profile_active.png',
                     ),
                   ),
                 ),
@@ -180,10 +175,35 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> getScreens() {
     return <Widget>[
-      ProductDetailScreen(),
-      CardScreens(),
-      CategoryScreen(),
-      HomeScreen(),
+      Directionality(
+        textDirection: TextDirection.rtl,
+        child: BlocProvider(
+          create: (context) => HomeBloc(),
+          child: HomeScreen(),
+        ),
+      ),
+      BlocProvider(
+        create: (context) => CategoryBloc(),
+        child: CategoryScreen(),
+      ),
+
+      BlocProvider(
+        create: (context) {
+          final bloc = locator.get<BasketBloc>();
+          bloc.add(BasketRequestEvent());
+          return bloc;
+        },
+        child: CardScreens(),
+      ),
+
+      LoginScreen(),
     ];
   }
-}
+} 
+
+
+
+
+
+
+// flutter.ndkVersion

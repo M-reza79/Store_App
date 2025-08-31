@@ -1,33 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/data/model/banner/banners.dart';
+
+import 'package:store_app/widgets/cached_image.dart';
 
 class BannerSlider extends StatelessWidget {
-  const BannerSlider({super.key});
+  final List<Banners> list;
+  const BannerSlider({
+    super.key,
+    required this.list,
+  });
 
   @override
   Widget build(BuildContext context) {
     var controller = PageController(
-      viewportFraction: 0.7,
+      viewportFraction: 0.9,
     );
     return Stack(
       alignment:
           AlignmentDirectional.bottomCenter,
       children: [
         SizedBox(
-          height: 200,
+          height: 177,
           child: PageView.builder(
             controller: controller,
-            itemCount: 3,
+            itemCount: list.length,
             itemBuilder: (context, index) {
-              return Padding(
-                padding:
-                    EdgeInsetsGeometry.only(
-                      left: 12,
-                      right: 12,
+              return Container(
+                margin:
+                    const EdgeInsets.symmetric(
+                      horizontal: 5,
                     ),
-                child: Container(
-                  color: Range.red,
+                child: CachedkImage(
+                  imageUrl: list[index].thumbnail,
+                  radius: 15,
                 ),
               );
             },
@@ -38,14 +45,16 @@ class BannerSlider extends StatelessWidget {
           bottom: 10,
           child: SmoothPageIndicator(
             effect: ExpandingDotsEffect(
-              expansionFactor: 4,
-              dotHeight: 10,
-              dotWidth: 10,
-              dotColor: Range.grey,
+              //اداطه خظ
+              expansionFactor: 3.5,
+              dotHeight: 5,
+              dotWidth: 5,
+              dotColor: Colors.white,
               activeDotColor: Range.indigo,
             ),
             controller: controller,
-            count: 3,
+            //تعداد
+            count: list.length,
           ),
         ),
       ],

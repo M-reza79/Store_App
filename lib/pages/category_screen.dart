@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/category/category_bloc.dart';
+import 'package:store_app/bloc/category/category_event.dart';
+import 'package:store_app/bloc/category/category_state.dart';
+import 'package:store_app/bloc/categoryProduct/category_product_bloc.dart';
 import 'package:store_app/constants/colors.dart';
+import 'package:store_app/data/model/category/categorys.dart';
+import 'package:store_app/pages/product_list_screen.dart';
 
-class CategoryScreen
-    extends StatelessWidget {
+import 'package:store_app/widgets/cached_image.dart';
+import 'package:store_app/widgets/nviagt.dart';
+
+class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
+
+  @override
+  State<CategoryScreen> createState() =>
+      _CategoryScreenState();
+}
+
+class _CategoryScreenState
+    extends State<CategoryScreen> {
+  @override
+  void initState() {
+    //بلاک پراویدر که اینوت بفرسته گذاشتیم  توی اینیت که  با ساخته شدن اینم بفرسته
+    BlocProvider.of<CategoryBloc>(
+      context,
+    ).add(CategoryRequestEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,28 +40,24 @@ class CategoryScreen
           slivers: [
             SliverToBoxAdapter(
               child: Padding(
-                padding:
-                    const EdgeInsets.only(
-                      top: 5,
-                      right: 30,
-                      left: 30,
-                      bottom: 30,
-                    ),
+                padding: const EdgeInsets.only(
+                  top: 5,
+                  right: 30,
+                  left: 30,
+                  bottom: 30,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.all(
-                          Radius.circular(
-                            15,
-                          ),
+                          Radius.circular(15),
                         ),
                   ),
                   height: 46,
                   child: Row(
                     crossAxisAlignment:
-                        CrossAxisAlignment
-                            .center,
+                        CrossAxisAlignment.center,
                     children: [
                       SizedBox(width: 16),
                       Image.asset(
@@ -47,8 +68,7 @@ class CategoryScreen
                         child: Text(
                           'دسته بندی',
                           textAlign:
-                              TextAlign
-                                  .center,
+                              TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'SB',
                             fontSize: 16,
@@ -62,45 +82,94 @@ class CategoryScreen
                 ),
               ),
             ),
-            SliverPadding(
-              padding: EdgeInsets.only(
-                bottom: 100,
-                right: 30,
-                left: 30,
-              ),
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate((
-                  context,
-                  index,
-                ) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Range.red,
-                      borderRadius:
-                          BorderRadius.all(
-                            Radius.circular(
-                              15,
-                            ),
-                          ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Item $index',
-                      ),
-                    ),
+            BlocBuilder<
+              CategoryBloc,
+              CategoryState
+            >(
+              builder: (context, state) {
+                if (state
+                    is CategoryLodingState) {
+                  return SliverToBoxAdapter(
+                    child:
+                        CircularProgressIndicator(),
                   );
-                }, childCount: 10),
-                gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                    ),
-              ),
+                }
+                //
+                if (state
+                    is CategoryResponseState) {
+                  return state.responseCategory
+                      .fold(
+                        (l) {
+                          return SliverToBoxAdapter(
+                            child: Center(
+                              child: Text(l),
+                            ),
+                          );
+                        },
+                        (r) {
+                          return _ListCategory(
+                            list: r,
+                          );
+                        },
+                      );
+                }
+                return SliverToBoxAdapter(
+                  child: Text('erorr'),
+                );
+              },
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ListCategory extends StatelessWidget {
+  final List<Categorys> list;
+  const _ListCategory({
+    super.key,
+    required this.list,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: EdgeInsets.only(
+        bottom: 100,
+        right: 30,
+        left: 30,
+      ),
+      sliver: SliverGrid(
+        delegate: SliverChildBuilderDelegate((
+          context,
+          index,
+        ) {
+          return InkWell(
+            onTap: () {
+              nviagt(
+                context,
+                BlocProvider(
+                  create: (context) =>
+                      CategoryProductBloc(),
+                  child: ProductListScreen(
+                    ctegory: list[index],
+                  ),
+                ),
+              );
+            },
+            child: CachedkImage(
+              imageUrl: list[index].thumbnail,
+            ),
+          );
+        }, childCount: list.length),
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+            ),
       ),
     );
   }
